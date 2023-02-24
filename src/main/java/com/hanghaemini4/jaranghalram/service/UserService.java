@@ -17,7 +17,6 @@ import java.util.Optional;
 public class UserService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
-//    private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
     @Transactional
     public String signup(SignupRequestDto signupRequestDto) {
