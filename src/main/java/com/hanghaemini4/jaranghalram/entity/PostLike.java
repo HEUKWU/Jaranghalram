@@ -21,7 +21,7 @@ public class PostLike {
     @JoinColumn(name = "POST_ID")
     private Post post;
 
-    public PostLIke(User user, Post post) {
+    public PostLike(User user, Post post) {
         this.user = user;
         this.post = post;
     }
