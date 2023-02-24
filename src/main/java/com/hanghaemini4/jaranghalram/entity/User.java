@@ -17,11 +17,14 @@ public class User {
     private Long id;
     @Column(nullable = false, unique = true)
     private String userName;
+    @Column(nullable = false, unique = true)
+    private String userNickName;
     @Column(nullable = false)
     private String password;
 
     public User(SignupRequestDto requestDto) {
-        this.userName = requestDto.getUsername();
+        this.userName = requestDto.getUserName();
+        this.userNickName = requestDto.getUserNickName();
         this.password = requestDto.getPassword();
     }
 
