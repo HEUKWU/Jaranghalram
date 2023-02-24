@@ -16,8 +16,8 @@ public class PostResponseDto {
     private int postLikeCount;
     private String userName;
 
-    private LocalDateTime regDt;
-    private LocalDateTime modDt;
+    private String createdAt;
+    private String modifiedAt;
 
 
     public static PostResponseDto of(Post post) {
@@ -27,8 +27,8 @@ public class PostResponseDto {
                 .content(post.getContent())
                 .imageUrl(post.getImageUrl())
                 .userName(post.getUser().getUserName())
-                .regDt(post.getRegDt())
-                .modDt(post.getModDt())
+                .createdAt(post.getCreatedAt().toString())
+                .modifiedAt(post.getModifiedAt().toString())
                 .build();
     }
 }

@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 public class TimeStamped {
     @CreatedDate
     @Column(updatable = false)
-    private LocalDateTime regDt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column
-    private LocalDateTime modDt;
+    private LocalDateTime modifiedAt;
 }
