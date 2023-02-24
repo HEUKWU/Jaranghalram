@@ -24,7 +24,7 @@ public class PostLikeService {
             postLikeRepository.deleteBoardLikeByUserId(user.getId());
             return "좋아요 취소";
         }
-        post.likeChek((post.getPostLikeCount()) - 1);
+        post.likeChek((post.getPostLikeCount()) + 1);
         PostLike postlike = new PostLike(user, post);
         postLikeRepository.save(postlike);
         return "좋아요 성공";
