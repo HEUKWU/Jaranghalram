@@ -24,6 +24,7 @@ public class PostResponseDto {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .imageUrl(post.getImageUrl())
+                .postLikeCount(post.getPostLikeCount())
                 .userName(post.getUser().getUserName())
                 .createdAt(post.getCreatedAt().toString())
                 .modifiedAt(post.getModifiedAt().toString())

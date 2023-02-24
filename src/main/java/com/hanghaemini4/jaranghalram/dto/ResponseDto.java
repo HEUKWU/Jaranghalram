@@ -1,5 +1,8 @@
 package com.hanghaemini4.jaranghalram.dto;
 
+import lombok.Getter;
+
+@Getter
 public class ResponseDto<T> {
 
     private T result;

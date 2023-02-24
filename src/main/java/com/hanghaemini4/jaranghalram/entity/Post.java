@@ -3,6 +3,7 @@ package com.hanghaemini4.jaranghalram.entity;
 
 import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Post extends TimeStamped{
 
     @Id
@@ -32,9 +34,10 @@ public class Post extends TimeStamped{
         this.postLikeCount = count;
     }
 
-    public void update(PostRequestDto requestDto) {
+    public void update(PostRequestDto requestDto, String imageUrl) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
+        this.imageUrl = imageUrl;
     }
 
     public Post(PostRequestDto requestDto, String imageUrl, User user) {

@@ -22,11 +22,16 @@ public class PostController {
 
     @GetMapping("/post")
     public ResponseDto<List<PostResponseDto>> getPostList(@RequestParam int page,
-                                                         @RequestParam int size,
-                                                         @RequestParam(required = false, defaultValue = "regDt") String sortBy) {
+                                                          @RequestParam int size,
+                                                          @RequestParam(required = false, defaultValue = "createdAt") String sortBy) {
 
         //sortBy = postLikeCount,
         return postService.getPostList(page-1, size, sortBy);
+    }
+
+    @GetMapping("/post/{postId}")
+    public ResponseDto<PostResponseDto> getPost(@PathVariable Long postId) {
+        return postService.getPost(postId);
     }
 
     @PostMapping("/post")
@@ -35,18 +40,13 @@ public class PostController {
     }
 
     @PutMapping("/post/{postId}")
-    public ResponseDto<String> updatePost(@PathVariable Long postId, PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.updatePost(postId, requestDto, userDetails.getUser());
+    public ResponseDto<String> updatePost(@PathVariable Long postId, PostRequestDto requestDto, @RequestParam("file") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+        return postService.updatePost(postId, requestDto, multipartFile, userDetails.getUser());
     }
 
     @DeleteMapping("/post/{postId}")
     public ResponseDto<String> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.deletePost(postId, userDetails.getUser());
-    }
-
-    @GetMapping("/post/{postId}")
-    public ResponseDto<PostResponseDto> getPost(@PathVariable Long postId) {
-        return postService.getPost(postId);
     }
 
 }
