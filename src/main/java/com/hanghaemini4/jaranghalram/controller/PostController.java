@@ -1,9 +1,12 @@
 package com.hanghaemini4.jaranghalram.controller;
 
+import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
+import com.hanghaemini4.jaranghalram.security.UserDetailsImpl;
 import com.hanghaemini4.jaranghalram.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,5 +32,19 @@ public class PostController {
 //
 //    }
 
+    @PutMapping("/post/{postId}")
+    public ResponseDto<String> updatePost(@PathVariable Long postId, PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.updatePost(postId, requestDto, userDetails.getUser());
+    }
+
+    @DeleteMapping("/post/{postId}")
+    public ResponseDto<String> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.deletePost(postId, userDetails.getUser());
+    }
+
+    @GetMapping("/post/{postId}")
+    public ResponseDto<PostResponseDto> getPost(@PathVariable Long postId) {
+        return postService.getPost(postId);
+    }
 
 }

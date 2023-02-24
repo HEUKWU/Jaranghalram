@@ -1,10 +1,13 @@
 package com.hanghaemini4.jaranghalram.entity;
 
 
+import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,4 +25,15 @@ public class Post extends TimeStamped{
     @ManyToOne
     private User User;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
+
+    public void likeCheck(int count) {
+        this.postLikeCount = count;
+    }
+
+    public void update(PostRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+    }
 }
