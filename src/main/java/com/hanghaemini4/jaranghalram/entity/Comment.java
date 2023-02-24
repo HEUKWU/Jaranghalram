@@ -25,4 +25,14 @@ public class Comment extends TimeStamped {
     @JoinColumn(name = "userId", nullable = false)
     private User user;
 
+    public Comment(String commentContent, Post post, User user) {
+        this.commentContent = commentContent;
+        this.post = post;
+        this.user = user;
+    }
+
+    public void update(String commentContent) {
+        this.commentContent = commentContent;
+    }
+
 }

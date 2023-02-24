@@ -1,7 +1,31 @@
 package com.hanghaemini4.jaranghalram.controller;
 
-import org.springframework.web.bind.annotation.RestController;
+import com.hanghaemini4.jaranghalram.dto.CommentRequestDto;
+import com.hanghaemini4.jaranghalram.dto.CommentResponseDto;
+import com.hanghaemini4.jaranghalram.security.UserDetailsImpl;
+import com.hanghaemini4.jaranghalram.service.CommentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class CommentController {
+
+    private final CommentService commentService;
+
+    @PostMapping("/api/comment/{id}")
+    public CommentResponseDto addComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.add(id, requestDto, userDetails.getUser());
+    }
+
+    @PutMapping("api/reply/{id}")
+    public void updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.update(id, requestDto, userDetails.getUser());
+    }
+
+    @DeleteMapping("api/reply/{id}")
+    public void deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.delete(id, userDetails.getUser());
+    }
 }
