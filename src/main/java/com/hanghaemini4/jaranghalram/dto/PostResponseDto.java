@@ -3,8 +3,6 @@ package com.hanghaemini4.jaranghalram.dto;
 import com.hanghaemini4.jaranghalram.entity.Post;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Builder

@@ -23,7 +23,7 @@ public class Post extends TimeStamped{
     private String imageUrl;
     private int postLikeCount;
     @ManyToOne
-    private User User;
+    private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
@@ -35,5 +35,12 @@ public class Post extends TimeStamped{
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();
+    }
+
+    public Post(PostRequestDto requestDto, String imageUrl, User user) {
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.imageUrl = imageUrl;
+        this.user = user;
     }
 }

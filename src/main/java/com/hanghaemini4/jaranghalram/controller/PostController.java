@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -29,8 +30,8 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public ResponseDto<PostResponseDto> createPost(@RequestBody PostRequestDto requestDto, @RequestParam("file") MultipartFile multipartFile, UserDetailsImpl userDetails) {
-        return postService.add(requestDto, multipartFile, userDetails.getUser());
+    public ResponseDto<String> createPost(@RequestBody PostRequestDto requestDto, @RequestParam("file") MultipartFile multipartFile, UserDetailsImpl userDetails) throws IOException {
+        return postService.addPost(requestDto, multipartFile, userDetails.getUser());
     }
 
     @PutMapping("/post/{postId}")

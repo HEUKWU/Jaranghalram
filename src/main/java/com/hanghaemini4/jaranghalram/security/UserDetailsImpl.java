@@ -41,6 +41,11 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
     public String getPassword() {
         return null;
     }

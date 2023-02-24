@@ -21,11 +21,11 @@ public class CommentController {
 
     @PutMapping("api/comment/{id}")
     public void updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentService.update(id, requestDto, userDetails.getUser());
+        commentService.update(id, requestDto, userDetails.getUser());
     }
 
     @DeleteMapping("api/comment/{id}")
     public void deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentService.delete(id, userDetails.getUser());
+        commentService.delete(id, userDetails.getUser());
     }
 }
