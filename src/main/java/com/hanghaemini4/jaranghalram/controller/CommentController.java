@@ -19,12 +19,12 @@ public class CommentController {
         return commentService.add(id, requestDto, userDetails.getUser());
     }
 
-    @PutMapping("api/reply/{id}")
+    @PutMapping("api/comment/{id}")
     public void updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.update(id, requestDto, userDetails.getUser());
     }
 
-    @DeleteMapping("api/reply/{id}")
+    @DeleteMapping("api/comment/{id}")
     public void deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.delete(id, userDetails.getUser());
     }
