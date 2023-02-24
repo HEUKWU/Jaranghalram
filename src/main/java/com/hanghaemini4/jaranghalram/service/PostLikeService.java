@@ -30,6 +30,3 @@ public class PostLikeService {
         return "좋아요 성공";
     }
 }
-//public void likeChek(int count){
-//this.postLikecount = count;
-//}
