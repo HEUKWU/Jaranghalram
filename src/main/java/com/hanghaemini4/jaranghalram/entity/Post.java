@@ -1,9 +1,14 @@
 package com.hanghaemini4.jaranghalram.entity;
 
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 public class Post extends TimeStamped{
 
     @Id
@@ -13,8 +18,7 @@ public class Post extends TimeStamped{
     private String title;
     private String content;
     private String imageUrl;
-    private int postLikecount;
-
+    private int postLikeCount;
     @ManyToOne
     private User User;
 
