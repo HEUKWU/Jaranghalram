@@ -32,6 +32,7 @@ public class PostService {
     private final PostLIkeRepository postLIkeRepository;
     private final S3Uploader s3Uploader;
 
+    @Transactional
     public ResponseDto<List<PostResponseDto>> getPostList(int page, int size, String sortBy, User user) {
 
         Sort.Direction direction = Sort.Direction.DESC;
@@ -57,6 +58,7 @@ public class PostService {
         return ResponseDto.success(dtoList);
     }
 
+    @Transactional
     public ResponseDto<PostOneResponseDto> getPost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
         List<PostLike> postLikeList = postLIkeRepository.findAllByPostId(postId);
