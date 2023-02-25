@@ -2,6 +2,7 @@ package com.hanghaemini4.jaranghalram.controller;
 
 import com.hanghaemini4.jaranghalram.dto.CommentRequestDto;
 import com.hanghaemini4.jaranghalram.dto.CommentResponseDto;
+import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.security.UserDetailsImpl;
 import com.hanghaemini4.jaranghalram.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,12 @@ public class CommentController {
     }
 
     @PutMapping("api/comment/{postId}")
-    public void updateComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.update(postId, requestDto, userDetails.getUser());
+    public ResponseDto<String> updateComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.update(postId, requestDto, userDetails.getUser());
     }
 
     @DeleteMapping("api/comment/{postId}")
-    public void deleteComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.delete(postId, userDetails.getUser());
+    public ResponseDto<String> deleteComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.delete(postId, userDetails.getUser());
     }
 }
