@@ -79,9 +79,9 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseDto<String> updatePost(Long postId, PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
+    public ResponseDto<String> updatePost(Long postId, PostRequestDto requestDto, User user) throws IOException {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
-        String imageUrl = s3Uploader.uploadFiles(multipartFile, "images");
+        String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
         if (user.getUserName().equals(post.getUser().getUserName())) {
             post.update(requestDto, imageUrl);
             return ResponseDto.success("수정 성공");

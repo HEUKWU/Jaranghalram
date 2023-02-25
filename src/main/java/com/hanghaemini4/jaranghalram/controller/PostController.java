@@ -54,8 +54,12 @@ public class PostController {
     }
 
     @PutMapping("/post/{postId}")
-    public ResponseDto<String> updatePost(@PathVariable Long postId, PostRequestDto requestDto, @RequestParam("file") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
-        return postService.updatePost(postId, requestDto, multipartFile, userDetails.getUser());
+    public ResponseDto<String> updatePost(@PathVariable Long postId,
+                                          @RequestParam(value = "title") String title,
+                                          @RequestParam(value = "content") String content,
+                                          @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+        PostRequestDto requestDto = new PostRequestDto(multipartFile, content, title);
+        return postService.updatePost(postId, requestDto, userDetails.getUser());
     }
 
     @DeleteMapping("/post/{postId}")
