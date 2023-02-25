@@ -1,7 +1,9 @@
 package com.hanghaemini4.jaranghalram.dto;
 
 import com.hanghaemini4.jaranghalram.entity.Post;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -13,7 +15,7 @@ public class PostResponseDto {
     private String imageUrl;
     private int postLikeCount;
     private String userName;
-
+    private boolean isLiked;
     private String createdAt;
     private String modifiedAt;
 

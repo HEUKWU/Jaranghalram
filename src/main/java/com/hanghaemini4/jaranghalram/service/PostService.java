@@ -1,10 +1,13 @@
 package com.hanghaemini4.jaranghalram.service;
 
+import com.hanghaemini4.jaranghalram.dto.PostOneResponseDto;
 import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.entity.Post;
+import com.hanghaemini4.jaranghalram.entity.PostLike;
 import com.hanghaemini4.jaranghalram.entity.User;
+import com.hanghaemini4.jaranghalram.repository.PostLIkeRepository;
 import com.hanghaemini4.jaranghalram.repository.PostRepository;
 import com.hanghaemini4.jaranghalram.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -26,27 +29,42 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostLIkeRepository postLIkeRepository;
     private final S3Uploader s3Uploader;
 
-    public ResponseDto<List<PostResponseDto>> getPostList(int page, int size, String sortBy) {
+    public ResponseDto<List<PostResponseDto>> getPostList(int page, int size, String sortBy, User user) {
 
         Sort.Direction direction = Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Post> postPage = postRepository.findAll(pageable);
 
+
         Iterator<Post> iterator = postPage.iterator();
         List<PostResponseDto> dtoList = new ArrayList<>();
 
         while (iterator.hasNext()) {
-            dtoList.add(PostResponseDto.of(iterator.next()));
+            Post post = iterator.next();
+            boolean isLiked = false;
+            List<PostLike> postLikeList = postLIkeRepository.findAllByPostId(post.getId());
+            if(user != null) { // 로그인 했을 때 좋아요 여부 체크
+                for(PostLike like : postLikeList) {
+                    if(like.getUser().getUserName().equals(user.getUserName())) {
+                        isLiked = true;
+                        break;
+                    }
+                }
+            }
+            PostResponseDto responseDto = PostResponseDto.of(post);
+            responseDto.setLiked(isLiked);
+            dtoList.add(responseDto);
         }
         return ResponseDto.success(dtoList);
     }
 
-    public ResponseDto<PostResponseDto> getPost(Long postId) {
+    public ResponseDto<PostOneResponseDto> getPost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
-        return ResponseDto.success(PostResponseDto.of(post));
+        return ResponseDto.success(new PostOneResponseDto(post));
     }
 
     public ResponseDto<String> addPost(PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {

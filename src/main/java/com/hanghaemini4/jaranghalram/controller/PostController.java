@@ -1,12 +1,15 @@
 package com.hanghaemini4.jaranghalram.controller;
 
+import com.hanghaemini4.jaranghalram.dto.PostOneResponseDto;
 import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
+import com.hanghaemini4.jaranghalram.entity.User;
 import com.hanghaemini4.jaranghalram.security.UserDetailsImpl;
 import com.hanghaemini4.jaranghalram.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,14 +26,18 @@ public class PostController {
     @GetMapping("/post")
     public ResponseDto<List<PostResponseDto>> getPostList(@RequestParam int page,
                                                           @RequestParam int size,
-                                                          @RequestParam(required = false, defaultValue = "createdAt") String sortBy) {
-
+                                                          @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+                                                          @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = null;
+        if(userDetails != null) {
+            user = userDetails.getUser();
+        }
         //sortBy = postLikeCount,
-        return postService.getPostList(page-1, size, sortBy);
+        return postService.getPostList(page-1, size, sortBy, user);
     }
 
     @GetMapping("/post/{postId}")
-    public ResponseDto<PostResponseDto> getPost(@PathVariable Long postId) {
+    public ResponseDto<PostOneResponseDto> getPost(@PathVariable Long postId) {
         return postService.getPost(postId);
     }
 

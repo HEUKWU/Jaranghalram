@@ -22,7 +22,7 @@ public class CommentService {
     public CommentResponseDto add(Long postId, CommentRequestDto requestDto, User user) {
         Post post = postRepository.findById(postId).orElseThrow(IllegalArgumentException::new);
         Comment comment = commentRepository.save(new Comment(requestDto.getContent(), post, user));
-        return CommentResponseDto.of(comment);
+        return new CommentResponseDto(comment);
     }
 
     @Transactional
