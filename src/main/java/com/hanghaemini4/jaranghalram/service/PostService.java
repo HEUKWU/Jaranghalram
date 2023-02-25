@@ -69,8 +69,8 @@ public class PostService {
         return ResponseDto.success(postOneResponseDto);
     }
 
-    public ResponseDto<String> addPost(PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
-        String imageUrl = s3Uploader.uploadFiles(multipartFile, "images");
+    public ResponseDto<String> addPost(PostRequestDto requestDto, User user) throws IOException {
+        String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
         postRepository.save(new Post(requestDto, imageUrl, user));
 
         return ResponseDto.success("업로드 성공");
