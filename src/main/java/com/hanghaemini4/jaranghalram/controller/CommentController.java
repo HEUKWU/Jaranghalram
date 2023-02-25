@@ -9,11 +9,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
+
+    @GetMapping("api/comment/myCommentList")
+    public ResponseDto<List<CommentResponseDto>> getComment(@AuthenticationPrincipal UserDetailsImpl userDetails){
+        return commentService.getCommentList(userDetails.getUser());
+    }
 
     @PostMapping("/api/comment/{postId}")
     public ResponseDto<?> addComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {

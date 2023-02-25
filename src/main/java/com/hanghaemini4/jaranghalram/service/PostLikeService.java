@@ -5,7 +5,7 @@ import com.hanghaemini4.jaranghalram.entity.Post;
 import com.hanghaemini4.jaranghalram.entity.PostLike;
 import com.hanghaemini4.jaranghalram.entity.User;
 import com.hanghaemini4.jaranghalram.exceptionHandler.PostLikeServiceException;
-import com.hanghaemini4.jaranghalram.repository.PostLIkeRepository;
+import com.hanghaemini4.jaranghalram.repository.PostLikeRepository;
 import com.hanghaemini4.jaranghalram.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostLikeService {
     private final PostRepository postRepository;
-    private final PostLIkeRepository postLikeRepository;
+    private final PostLikeRepository postLikeRepository;
 
     @Transactional
     public ResponseDto<Boolean> likePost(Long postId, User user) {

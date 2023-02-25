@@ -1,15 +1,11 @@
 package com.hanghaemini4.jaranghalram.controller;
 
-import com.hanghaemini4.jaranghalram.dto.PostOneResponseDto;
-import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
-import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
-import com.hanghaemini4.jaranghalram.dto.ResponseDto;
+import com.hanghaemini4.jaranghalram.dto.*;
 import com.hanghaemini4.jaranghalram.entity.User;
 import com.hanghaemini4.jaranghalram.security.UserDetailsImpl;
 import com.hanghaemini4.jaranghalram.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,10 +41,15 @@ public class PostController {
         return postService.getPost(postId, user);
     }
 
+    @GetMapping("/post/myPostList")
+    public ResponseDto<List<PostResponseDto>> getMyPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.getMyList(userDetails.getUser());
+    }
+
     @PostMapping("/post")
     public ResponseDto<?> createPost(@RequestParam(value = "title") String title,
-                                          @RequestParam(value = "content") String content,
-                                          @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+                                     @RequestParam(value = "content") String content,
+                                     @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         PostRequestDto requestDto = new PostRequestDto(multipartFile, content, title);
         return postService.addPost(requestDto, userDetails.getUser());
     }

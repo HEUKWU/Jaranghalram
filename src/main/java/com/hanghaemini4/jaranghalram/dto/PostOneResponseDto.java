@@ -39,4 +39,18 @@ public class PostOneResponseDto {
                         .map(CommentResponseDto::new)
                         .collect(Collectors.toList());
     }
+
+    public PostOneResponseDto(Post post, List<Comment> comments) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.imageUrl = post.getImageUrl();
+        this.postLikeCount = post.getPostLikeCount();
+        this.userName = post.getUser().getUserName();
+        this.createdAt = post.getCreatedAt().toString();
+        this.modifiedAt = post.getModifiedAt().toString();
+        for (Comment comment : comments) {
+            commentList.add(new CommentResponseDto(comment));
+        }
+    }
 }

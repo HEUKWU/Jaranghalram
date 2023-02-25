@@ -4,10 +4,12 @@ import com.hanghaemini4.jaranghalram.dto.PostOneResponseDto;
 import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
+import com.hanghaemini4.jaranghalram.entity.Comment;
 import com.hanghaemini4.jaranghalram.entity.Post;
 import com.hanghaemini4.jaranghalram.entity.User;
 import com.hanghaemini4.jaranghalram.exceptionHandler.PostServiceException;
-import com.hanghaemini4.jaranghalram.repository.PostLIkeRepository;
+import com.hanghaemini4.jaranghalram.repository.CommentRepository;
+import com.hanghaemini4.jaranghalram.repository.PostLikeRepository;
 import com.hanghaemini4.jaranghalram.repository.PostRepository;
 import com.hanghaemini4.jaranghalram.s3.S3Uploader;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +30,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final PostLIkeRepository postLIkeRepository;
+    private final PostLikeRepository postLikeRepository;
     private final S3Uploader s3Uploader;
 
     @Transactional
@@ -47,7 +49,7 @@ public class PostService {
             Post post = iterator.next();
             PostResponseDto responseDto = PostResponseDto.of(post);
             if(user != null) { // 로그인 했을 때 좋아요 여부 체크
-                responseDto.setLiked(postLIkeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
+                responseDto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
             }
             dtoList.add(responseDto);
         }
@@ -59,9 +61,19 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new PostServiceException("게시글이 없음"));
         PostOneResponseDto postOneResponseDto = new PostOneResponseDto(post);
         if(user != null) {
-            postOneResponseDto.setLiked(postLIkeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
+            postOneResponseDto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
         }
         return ResponseDto.success(postOneResponseDto);
+    }
+
+    @Transactional
+    public ResponseDto<List<PostResponseDto>> getMyList(User user) {
+        List<Post> myPost = postRepository.findAllByUserId(user.getId());
+        List<PostResponseDto> posts = new ArrayList<>();
+        for (Post post : myPost) {
+            posts.add(PostResponseDto.of(post));
+        }
+        return ResponseDto.success(posts);
     }
 
     public ResponseDto<?> addPost(PostRequestDto requestDto, User user) throws IOException {

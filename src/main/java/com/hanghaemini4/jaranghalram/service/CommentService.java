@@ -1,6 +1,7 @@
 package com.hanghaemini4.jaranghalram.service;
 
 import com.hanghaemini4.jaranghalram.dto.CommentRequestDto;
+import com.hanghaemini4.jaranghalram.dto.CommentResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.entity.Comment;
 import com.hanghaemini4.jaranghalram.entity.Post;
@@ -12,12 +13,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+
+    public ResponseDto<List<CommentResponseDto>> getCommentList(User user) {
+        List<Comment> commentList = commentRepository.findAllByUserId(user.getId());
+        List<CommentResponseDto> comments = new ArrayList<>();
+        for (Comment comment : commentList) {
+            comments.add(new CommentResponseDto(comment, user));
+        }
+        return ResponseDto.success(comments);
+    }
 
     @Transactional
     public ResponseDto<?> add(Long postId, CommentRequestDto requestDto, User user) {
