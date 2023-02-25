@@ -58,13 +58,10 @@ public class PostService {
     @Transactional
     public ResponseDto<PostOneResponseDto> getPost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
-        List<PostLike> postLikeList = postLIkeRepository.findAllByPostId(postId);
-        boolean isLiked = false;
-        if(user != null) {
-            isLiked = isLiked(postLikeList, user);
-        }
         PostOneResponseDto postOneResponseDto = new PostOneResponseDto(post);
-        postOneResponseDto.setLiked(isLiked);
+        if(user != null) {
+            postOneResponseDto.setLiked(postLIkeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
+        }
         return ResponseDto.success(postOneResponseDto);
     }
 
