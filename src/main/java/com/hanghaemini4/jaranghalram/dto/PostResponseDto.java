@@ -13,7 +13,7 @@ public class PostResponseDto {
     private String imageUrl;
     private int postLikeCount;
     private String userName;
-
+    private boolean isLiked;
     private String createdAt;
     private String modifiedAt;
 
