@@ -24,6 +24,7 @@ public class Post extends TimeStamped{
     private String content;
     private String imageUrl;
     private int postLikeCount;
+
     @ManyToOne
     private User user;
 
