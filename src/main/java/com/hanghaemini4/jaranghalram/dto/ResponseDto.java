@@ -13,10 +13,6 @@ public class ResponseDto<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
-    public ResponseDto (T data) {
-        this.result = data;
-    }
-
     public static <T> ResponseDto<T> success(T result) {
         return new ResponseDto<>(true, result);
     }
