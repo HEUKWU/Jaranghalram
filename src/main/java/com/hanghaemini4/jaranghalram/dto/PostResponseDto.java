@@ -1,7 +1,9 @@
 package com.hanghaemini4.jaranghalram.dto;
 
 import com.hanghaemini4.jaranghalram.entity.Post;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter

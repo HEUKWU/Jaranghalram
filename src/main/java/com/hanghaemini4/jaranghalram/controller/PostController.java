@@ -1,5 +1,6 @@
 package com.hanghaemini4.jaranghalram.controller;
 
+import com.hanghaemini4.jaranghalram.dto.PostOneResponseDto;
 import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
@@ -36,7 +37,7 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}")
-    public ResponseDto<PostResponseDto> getPost(@PathVariable Long postId) {
+    public ResponseDto<PostOneResponseDto> getPost(@PathVariable Long postId) {
         return postService.getPost(postId);
     }
 
