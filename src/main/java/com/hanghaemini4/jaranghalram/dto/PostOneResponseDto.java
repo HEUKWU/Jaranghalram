@@ -3,12 +3,14 @@ package com.hanghaemini4.jaranghalram.dto;
 import com.hanghaemini4.jaranghalram.entity.Comment;
 import com.hanghaemini4.jaranghalram.entity.Post;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 public class PostOneResponseDto {
     private Long id;
     private String title;
@@ -16,6 +18,7 @@ public class PostOneResponseDto {
     private String imageUrl;
     private int postLikeCount;
     private String userName;
+    private boolean isLiked;
 
     private String createdAt;
     private String modifiedAt;

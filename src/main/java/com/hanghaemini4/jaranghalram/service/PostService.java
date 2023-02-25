@@ -48,12 +48,7 @@ public class PostService {
             boolean isLiked = false;
             List<PostLike> postLikeList = postLIkeRepository.findAllByPostId(post.getId());
             if(user != null) { // 로그인 했을 때 좋아요 여부 체크
-                for(PostLike like : postLikeList) {
-                    if(like.getUser().getUserName().equals(user.getUserName())) {
-                        isLiked = true;
-                        break;
-                    }
-                }
+                isLiked = isLiked(postLikeList, user);
             }
             PostResponseDto responseDto = PostResponseDto.of(post);
             responseDto.setLiked(isLiked);
@@ -62,13 +57,20 @@ public class PostService {
         return ResponseDto.success(dtoList);
     }
 
-    public ResponseDto<PostOneResponseDto> getPost(Long postId) {
+    public ResponseDto<PostOneResponseDto> getPost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
-        return ResponseDto.success(new PostOneResponseDto(post));
+        List<PostLike> postLikeList = postLIkeRepository.findAllByPostId(postId);
+        boolean isLiked = false;
+        if(user != null) {
+            isLiked = isLiked(postLikeList, user);
+        }
+        PostOneResponseDto postOneResponseDto = new PostOneResponseDto(post);
+        postOneResponseDto.setLiked(isLiked);
+        return ResponseDto.success(postOneResponseDto);
     }
 
-    public ResponseDto<String> addPost(PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
-        String imageUrl = s3Uploader.uploadFiles(multipartFile, "images");
+    public ResponseDto<String> addPost(PostRequestDto requestDto, User user) throws IOException {
+        String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
         postRepository.save(new Post(requestDto, imageUrl, user));
 
         return ResponseDto.success("업로드 성공");
@@ -95,5 +97,16 @@ public class PostService {
         } else {
             throw new IllegalArgumentException("작성자만 삭제 가능");
         }
+    }
+
+    public boolean isLiked(List<PostLike> postLikeList, User user) {
+        boolean isLiked = false;
+        for(PostLike like : postLikeList) {
+            if(like.getUser().getUserName().equals(user.getUserName())) {
+                isLiked = true;
+                break;
+            }
+        }
+        return isLiked;
     }
 }

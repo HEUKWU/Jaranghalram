@@ -37,13 +37,20 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}")
-    public ResponseDto<PostOneResponseDto> getPost(@PathVariable Long postId) {
-        return postService.getPost(postId);
+    public ResponseDto<PostOneResponseDto> getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = null;
+        if(userDetails != null) {
+            user = userDetails.getUser();
+        }
+        return postService.getPost(postId, user);
     }
 
     @PostMapping("/post")
-    public ResponseDto<String> createPost(@RequestBody PostRequestDto requestDto, @RequestParam("file") MultipartFile multipartFile, UserDetailsImpl userDetails) throws IOException {
-        return postService.addPost(requestDto, multipartFile, userDetails.getUser());
+    public ResponseDto<String> createPost(@RequestParam(value = "title") String title,
+                                          @RequestParam(value = "content") String content,
+                                          @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+        PostRequestDto requestDto = new PostRequestDto(multipartFile, content, title);
+        return postService.addPost(requestDto, userDetails.getUser());
     }
 
     @PutMapping("/post/{postId}")
