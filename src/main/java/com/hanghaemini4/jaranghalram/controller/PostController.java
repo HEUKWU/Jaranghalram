@@ -46,7 +46,7 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public ResponseDto<String> createPost(@RequestParam(value = "title") String title,
+    public ResponseDto<?> createPost(@RequestParam(value = "title") String title,
                                           @RequestParam(value = "content") String content,
                                           @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         PostRequestDto requestDto = new PostRequestDto(multipartFile, content, title);
@@ -54,7 +54,7 @@ public class PostController {
     }
 
     @PutMapping("/post/{postId}")
-    public ResponseDto<String> updatePost(@PathVariable Long postId,
+    public ResponseDto<?> updatePost(@PathVariable Long postId,
                                           @RequestParam(value = "title") String title,
                                           @RequestParam(value = "content") String content,
                                           @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
@@ -63,7 +63,7 @@ public class PostController {
     }
 
     @DeleteMapping("/post/{postId}")
-    public ResponseDto<String> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<?> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.deletePost(postId, userDetails.getUser());
     }
 
