@@ -14,18 +14,18 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/api/comment/{id}")
-    public CommentResponseDto addComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentService.add(id, requestDto, userDetails.getUser());
+    @PostMapping("/api/comment/{postId}")
+    public CommentResponseDto addComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.add(postId, requestDto, userDetails.getUser());
     }
 
-    @PutMapping("api/comment/{id}")
-    public void updateComment(@PathVariable Long id, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.update(id, requestDto, userDetails.getUser());
+    @PutMapping("api/comment/{postId}")
+    public void updateComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentService.update(postId, requestDto, userDetails.getUser());
     }
 
-    @DeleteMapping("api/comment/{id}")
-    public void deleteComment(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.delete(id, userDetails.getUser());
+    @DeleteMapping("api/comment/{postId}")
+    public void deleteComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        commentService.delete(postId, userDetails.getUser());
     }
 }

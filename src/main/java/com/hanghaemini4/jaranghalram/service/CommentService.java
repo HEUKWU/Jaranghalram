@@ -19,20 +19,29 @@ public class CommentService {
     private final PostRepository postRepository;
 
     @Transactional
-    public CommentResponseDto add(Long id, CommentRequestDto requestDto, User user) {
-        Post post = postRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+    public CommentResponseDto add(Long postId, CommentRequestDto requestDto, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(IllegalArgumentException::new);
         Comment comment = commentRepository.save(new Comment(requestDto.getContent(), post, user));
         return new CommentResponseDto(comment);
     }
 
     @Transactional
-    public void update(Long id, CommentRequestDto requestDto, User user) {
-        Comment comment = commentRepository.findByIdAndUserId(id, user.getId()).orElseThrow(IllegalArgumentException::new);
-        comment.update(requestDto.getContent());
+    public void update(Long postId, CommentRequestDto requestDto, User user) {
+        Comment comment = commentRepository.findById(postId).orElseThrow(NullPointerException::new);
+        if (comment.getUser().getUserName().equals(user.getUserName())) {
+            comment.update(requestDto.getContent());
+        } else {
+            throw new IllegalArgumentException("작성자만 수정 가능");
+        }
     }
 
     @Transactional
-    public void delete(Long id, User user) {
-        commentRepository.deleteById(id);
+    public void delete(Long postId, User user) {
+        Comment comment = commentRepository.findById(postId).orElseThrow(NullPointerException::new);
+        if (comment.getUser().getUserName().equals(user.getUserName())) {
+            commentRepository.deleteById(postId);
+        } else {
+            throw new IllegalArgumentException("작성자만 삭제 가능");
+        }
     }
 }
