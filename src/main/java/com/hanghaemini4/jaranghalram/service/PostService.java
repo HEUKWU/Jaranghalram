@@ -5,8 +5,8 @@ import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.entity.Post;
-import com.hanghaemini4.jaranghalram.entity.PostLike;
 import com.hanghaemini4.jaranghalram.entity.User;
+import com.hanghaemini4.jaranghalram.exceptionHandler.PostServiceException;
 import com.hanghaemini4.jaranghalram.repository.PostLIkeRepository;
 import com.hanghaemini4.jaranghalram.repository.PostRepository;
 import com.hanghaemini4.jaranghalram.s3.S3Uploader;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class PostService {
 
     @Transactional
     public ResponseDto<PostOneResponseDto> getPost(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new PostServiceException("게시글이 없음"));
         PostOneResponseDto postOneResponseDto = new PostOneResponseDto(post);
         if(user != null) {
             postOneResponseDto.setLiked(postLIkeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
@@ -74,35 +73,24 @@ public class PostService {
 
     @Transactional
     public ResponseDto<?> updatePost(Long postId, PostRequestDto requestDto, User user) throws IOException {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new PostServiceException("게시글이 없음"));
         String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
         if (user.getUserName().equals(post.getUser().getUserName())) {
             post.update(requestDto, imageUrl);
             return ResponseDto.success("게시물 수정 성공");
         } else {
-            throw new IllegalArgumentException("작성자만 수정 가능");
+            throw new PostServiceException("작성자만 수정 가능");
         }
     }
 
     @Transactional
     public ResponseDto<?> deletePost(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new PostServiceException("게시글이 없음"));
         if (user.getUserName().equals(post.getUser().getUserName())) {
             postRepository.deleteById(postId);
             return ResponseDto.success("게시물 삭제 성공");
         } else {
             throw new IllegalArgumentException("작성자만 삭제 가능");
         }
-    }
-
-    public boolean isLiked(List<PostLike> postLikeList, User user) {
-        boolean isLiked = false;
-        for(PostLike like : postLikeList) {
-            if(like.getUser().getUserName().equals(user.getUserName())) {
-                isLiked = true;
-                break;
-            }
-        }
-        return isLiked;
     }
 }
