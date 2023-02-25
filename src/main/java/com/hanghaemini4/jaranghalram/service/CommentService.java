@@ -1,7 +1,6 @@
 package com.hanghaemini4.jaranghalram.service;
 
 import com.hanghaemini4.jaranghalram.dto.CommentRequestDto;
-import com.hanghaemini4.jaranghalram.dto.CommentResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.entity.Comment;
 import com.hanghaemini4.jaranghalram.entity.Post;
@@ -20,14 +19,14 @@ public class CommentService {
     private final PostRepository postRepository;
 
     @Transactional
-    public CommentResponseDto add(Long postId, CommentRequestDto requestDto, User user) {
+    public ResponseDto<?> add(Long postId, CommentRequestDto requestDto, User user) {
         Post post = postRepository.findById(postId).orElseThrow(IllegalArgumentException::new);
-        Comment comment = commentRepository.save(new Comment(requestDto.getContent(), post, user));
-        return new CommentResponseDto(comment);
+        commentRepository.save(new Comment(requestDto.getContent(), post, user));
+        return ResponseDto.success("댓글 등록 성공");
     }
 
     @Transactional
-    public ResponseDto<String> update(Long postId, CommentRequestDto requestDto, User user) {
+    public ResponseDto<?> update(Long postId, CommentRequestDto requestDto, User user) {
         Comment comment = commentRepository.findById(postId).orElseThrow(NullPointerException::new);
         if (comment.getUser().getUserName().equals(user.getUserName())) {
             comment.update(requestDto.getContent());
@@ -38,7 +37,7 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseDto<String> delete(Long postId, User user) {
+    public ResponseDto<?> delete(Long postId, User user) {
         Comment comment = commentRepository.findById(postId).orElseThrow(NullPointerException::new);
         if (comment.getUser().getUserName().equals(user.getUserName())) {
             commentRepository.deleteById(postId);

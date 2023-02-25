@@ -16,17 +16,17 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/api/comment/{postId}")
-    public CommentResponseDto addComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<?> addComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.add(postId, requestDto, userDetails.getUser());
     }
 
     @PutMapping("api/comment/{postId}")
-    public ResponseDto<String> updateComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<?> updateComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.update(postId, requestDto, userDetails.getUser());
     }
 
     @DeleteMapping("api/comment/{postId}")
-    public ResponseDto<String> deleteComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<?> deleteComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.delete(postId, userDetails.getUser());
     }
 }
