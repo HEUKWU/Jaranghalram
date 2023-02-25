@@ -37,8 +37,12 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}")
-    public ResponseDto<PostOneResponseDto> getPost(@PathVariable Long postId) {
-        return postService.getPost(postId);
+    public ResponseDto<PostOneResponseDto> getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = null;
+        if(userDetails != null) {
+            user = userDetails.getUser();
+        }
+        return postService.getPost(postId, user);
     }
 
     @PostMapping("/post")
