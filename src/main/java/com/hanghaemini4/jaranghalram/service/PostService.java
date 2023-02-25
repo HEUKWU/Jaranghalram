@@ -46,13 +46,10 @@ public class PostService {
 
         while (iterator.hasNext()) {
             Post post = iterator.next();
-            boolean isLiked = false;
-            List<PostLike> postLikeList = postLIkeRepository.findAllByPostId(post.getId());
-            if(user != null) { // 로그인 했을 때 좋아요 여부 체크
-                isLiked = isLiked(postLikeList, user);
-            }
             PostResponseDto responseDto = PostResponseDto.of(post);
-            responseDto.setLiked(isLiked);
+            if(user != null) { // 로그인 했을 때 좋아요 여부 체크
+                responseDto.setLiked(postLIkeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
+            }
             dtoList.add(responseDto);
         }
         return ResponseDto.success(dtoList);
