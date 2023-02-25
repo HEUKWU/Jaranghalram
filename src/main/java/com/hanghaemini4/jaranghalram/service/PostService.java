@@ -65,31 +65,31 @@ public class PostService {
         return ResponseDto.success(postOneResponseDto);
     }
 
-    public ResponseDto<String> addPost(PostRequestDto requestDto, User user) throws IOException {
+    public ResponseDto<?> addPost(PostRequestDto requestDto, User user) throws IOException {
         String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
-        postRepository.save(new Post(requestDto, imageUrl, user));
+        Post post = postRepository.save(new Post(requestDto, imageUrl, user));
 
-        return ResponseDto.success("업로드 성공");
+        return ResponseDto.success("게시물 등록 성공");
     }
 
     @Transactional
-    public ResponseDto<String> updatePost(Long postId, PostRequestDto requestDto, User user) throws IOException {
+    public ResponseDto<?> updatePost(Long postId, PostRequestDto requestDto, User user) throws IOException {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
         String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
         if (user.getUserName().equals(post.getUser().getUserName())) {
             post.update(requestDto, imageUrl);
-            return ResponseDto.success("수정 성공");
+            return ResponseDto.success("게시물 수정 성공");
         } else {
             throw new IllegalArgumentException("작성자만 수정 가능");
         }
     }
 
     @Transactional
-    public ResponseDto<String> deletePost(Long postId, User user) {
+    public ResponseDto<?> deletePost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
         if (user.getUserName().equals(post.getUser().getUserName())) {
             postRepository.deleteById(postId);
-            return ResponseDto.success("삭제 성공");
+            return ResponseDto.success("게시물 삭제 성공");
         } else {
             throw new IllegalArgumentException("작성자만 삭제 가능");
         }
