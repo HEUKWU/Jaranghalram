@@ -1,5 +1,6 @@
 package com.hanghaemini4.jaranghalram.service;
 
+import com.hanghaemini4.jaranghalram.dto.PostOneResponseDto;
 import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
@@ -44,9 +45,9 @@ public class PostService {
         return ResponseDto.success(dtoList);
     }
 
-    public ResponseDto<PostResponseDto> getPost(Long postId) {
+    public ResponseDto<PostOneResponseDto> getPost(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시글이 없음"));
-        return ResponseDto.success(PostResponseDto.of(post));
+        return ResponseDto.success(new PostOneResponseDto(post));
     }
 
     public ResponseDto<String> addPost(PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
