@@ -1,5 +1,6 @@
 package com.hanghaemini4.jaranghalram.service;
 
+import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.entity.Post;
 import com.hanghaemini4.jaranghalram.entity.PostLike;
 import com.hanghaemini4.jaranghalram.entity.User;
@@ -16,16 +17,16 @@ public class PostLikeService {
     private final PostLIkeRepository postLikeRepository;
 
     @Transactional
-    public String likePost(Long postId, User user) {
+    public ResponseDto<Boolean> likePost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("존재하지 않는 댓글"));
         if (postLikeRepository.findByPostIdAndUserId(postId, user.getId()).isPresent()) {
             post.likeCheck((post.getPostLikeCount()) - 1);
             postLikeRepository.deletePostLikeByUserId(user.getId());
-            return "좋아요 취소";
+            return ResponseDto.fail(null);
         }
         post.likeCheck((post.getPostLikeCount()) + 1);
         PostLike postlike = new PostLike(user, post);
         postLikeRepository.save(postlike);
-        return "좋아요 성공";
+        return ResponseDto.success(null);
     }
 }

@@ -1,11 +1,14 @@
 package com.hanghaemini4.jaranghalram.service;
 
+import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.jwt.JwtUtil;
 import com.hanghaemini4.jaranghalram.dto.LoginRequestDto;
 import com.hanghaemini4.jaranghalram.dto.SignupRequestDto;
 import com.hanghaemini4.jaranghalram.entity.User;
 import com.hanghaemini4.jaranghalram.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public String signup(SignupRequestDto signupRequestDto) {
+    public ResponseDto<Boolean> signup(SignupRequestDto signupRequestDto) {
         String userName = signupRequestDto.getUserName();
         String userNickName = signupRequestDto.getUserNickName();
         // 회원 아이디() 확인
@@ -35,21 +38,22 @@ public class UserService {
         User user = new User(signupRequestDto);
         userRepository.save(user);
 
-        return "회원가입 성공";
+        return ResponseDto.success(null);
     }
-    public Boolean userNameCheck(String userName){
+    public ResponseDto<Boolean> userNameCheck(String userName){
         Optional<User> nameCheck = userRepository.findByUserName(userName);
         if (nameCheck.isPresent()) {
-            return false;
+            return ResponseDto.fail(null);
         }
-        return true;
+        return ResponseDto.success(null);
     }
-    public Boolean userNickNameCheck(String userNickName){
+    public ResponseDto<Boolean> userNickNameCheck(String userNickName){
         Optional<User> nameCheck = userRepository.findByUserNickName(userNickName);
         if (nameCheck.isPresent()) {
-            return false;
+            return ResponseDto.fail(null);
         }
-        return true;
+        return ResponseDto.success(null);
+
     }
 
     @Transactional(readOnly = true)

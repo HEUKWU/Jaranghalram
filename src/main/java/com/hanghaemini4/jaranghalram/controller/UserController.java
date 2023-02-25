@@ -1,6 +1,7 @@
 package com.hanghaemini4.jaranghalram.controller;
 
 import com.hanghaemini4.jaranghalram.dto.LoginRequestDto;
+import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.dto.SignupRequestDto;
 import com.hanghaemini4.jaranghalram.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,25 +16,23 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public String signup(@RequestBody SignupRequestDto signupRequestDto) {
-        userService.signup(signupRequestDto);
-        return "success";
+    public ResponseDto<Boolean> signup(@RequestBody SignupRequestDto signupRequestDto) {
+
+        return userService.signup(signupRequestDto);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse) {
+    public ResponseDto<Boolean> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse) {
         userService.login(loginRequestDto, httpServletResponse);
-        return "success";
+        return ResponseDto.success(null);
     }
     @GetMapping("/idCheck/{userName}")
-    public String userNameCheck(@PathVariable String userName) {
-        userService.userNameCheck(userName);
-        return "success";
+    public ResponseDto<Boolean> userNameCheck(@PathVariable String userName) {
+        return userService.userNameCheck(userName);
     }
     @GetMapping("/nickNameCheck/{userNickName}")
-    public String userNickNameCheck(@PathVariable String userNickName) {
-        userService.userNickNameCheck(userNickName);
-        return "success";
+    public ResponseDto<Boolean> userNickNameCheck(@PathVariable String userNickName) {
+        return userService.userNickNameCheck(userNickName);
     }
 
 //    @GetMapping("/logout")

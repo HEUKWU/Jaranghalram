@@ -1,5 +1,6 @@
 package com.hanghaemini4.jaranghalram.controller;
 
+import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import com.hanghaemini4.jaranghalram.security.UserDetailsImpl;
 import com.hanghaemini4.jaranghalram.service.PostLikeService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class PostLikeController {
     private final PostLikeService postLikeService;
 
     @PostMapping("/like/{postId}")
-    public String likePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<Boolean> likePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postLikeService.likePost(postId, userDetails.getUser());
     }
 }
