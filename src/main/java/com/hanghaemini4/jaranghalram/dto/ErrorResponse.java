@@ -10,15 +10,13 @@ import org.springframework.http.ResponseEntity;
 @Getter
 @AllArgsConstructor
 public class ErrorResponse {
-//    private int status;
-    private String msg;
+    private String errorMessage;
 
     public static ResponseEntity<ErrorResponse> error(ErrorCode errorCode) {
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
                 .body(ErrorResponse.builder()
-//                        .status(errorCode.getHttpStatus().value())
-                        .msg(errorCode.getMessage())
+                        .errorMessage(errorCode.getMessage())
                         .build());
     }
 }
