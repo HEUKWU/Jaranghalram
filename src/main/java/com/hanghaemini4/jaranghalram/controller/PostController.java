@@ -47,9 +47,9 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public ResponseDto<?> createPost(@RequestParam(value = "title") String title,
-                                     @RequestParam(value = "content") String content,
-                                     @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    public ResponseDto<?> createPost(@RequestPart(value = "title") String title,
+                                     @RequestPart(value = "content") String content,
+                                     @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         PostRequestDto requestDto = new PostRequestDto(multipartFile, content, title);
         return postService.addPost(requestDto, userDetails.getUser());
     }
