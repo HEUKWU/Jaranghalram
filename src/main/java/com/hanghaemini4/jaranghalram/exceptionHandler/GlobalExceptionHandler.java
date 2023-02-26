@@ -12,7 +12,7 @@ public class GlobalExceptionHandler extends RuntimeException{
 
 //  <?>대신 <String> 확인하고 사용
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseDto<String>> handlerExcepiton(Exception e){
+    public ResponseEntity<ResponseDto<String>> handlerException(Exception e){
         return new ResponseEntity<>(ResponseDto.fail(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 //    <String>일 경우 체크
