@@ -1,5 +1,6 @@
 package com.hanghaemini4.jaranghalram.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,9 +18,4 @@ public class SignupRequestDto {
     @Size(min = 8, max = 15)
     @Pattern(regexp = "[0-9a-zA-Z!@#$%^&*(),.?\":{}|<>]+]")
     private String password;
-    public SignupRequestDto(String userName, String userNickName, String password){
-        this.userName = userName;
-        this.userNickName = userNickName;
-        this.password = password;
-    }
 }

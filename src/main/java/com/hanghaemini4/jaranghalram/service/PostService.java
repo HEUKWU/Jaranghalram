@@ -4,11 +4,10 @@ import com.hanghaemini4.jaranghalram.dto.PostOneResponseDto;
 import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import com.hanghaemini4.jaranghalram.dto.PostResponseDto;
 import com.hanghaemini4.jaranghalram.dto.ResponseDto;
-import com.hanghaemini4.jaranghalram.entity.Comment;
 import com.hanghaemini4.jaranghalram.entity.Post;
 import com.hanghaemini4.jaranghalram.entity.User;
-import com.hanghaemini4.jaranghalram.exceptionHandler.PostServiceException;
-import com.hanghaemini4.jaranghalram.repository.CommentRepository;
+import com.hanghaemini4.jaranghalram.exceptionHandler.CustomException;
+import com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode;
 import com.hanghaemini4.jaranghalram.repository.PostLikeRepository;
 import com.hanghaemini4.jaranghalram.repository.PostRepository;
 import com.hanghaemini4.jaranghalram.s3.S3Uploader;
@@ -58,7 +57,7 @@ public class PostService {
 
     @Transactional
     public ResponseDto<PostOneResponseDto> getPost(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new PostServiceException("게시글이 없음"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         PostOneResponseDto postOneResponseDto = new PostOneResponseDto(post);
         if(user != null) {
             postOneResponseDto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
@@ -78,31 +77,31 @@ public class PostService {
 
     public ResponseDto<?> addPost(PostRequestDto requestDto, User user) throws IOException {
         String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
-        Post post = postRepository.save(new Post(requestDto, imageUrl, user));
+        postRepository.save(new Post(requestDto, imageUrl, user));
 
         return ResponseDto.success("게시물 등록 성공");
     }
 
     @Transactional
     public ResponseDto<?> updatePost(Long postId, PostRequestDto requestDto, User user) throws IOException {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new PostServiceException("게시글이 없음"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
         if (user.getUserName().equals(post.getUser().getUserName())) {
             post.update(requestDto, imageUrl);
             return ResponseDto.success("게시물 수정 성공");
         } else {
-            throw new PostServiceException("작성자만 수정 가능");
+            throw new CustomException(ErrorCode.NoModifyPermission);
         }
     }
 
     @Transactional
     public ResponseDto<?> deletePost(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new PostServiceException("게시글이 없음"));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         if (user.getUserName().equals(post.getUser().getUserName())) {
             postRepository.deleteById(postId);
             return ResponseDto.success("게시물 삭제 성공");
         } else {
-            throw new PostServiceException("작성자만 삭제 가능");
+            throw new CustomException(ErrorCode.NoDeletePermission);
         }
     }
 }

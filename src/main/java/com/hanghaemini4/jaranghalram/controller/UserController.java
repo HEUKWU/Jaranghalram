@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,15 +17,13 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseDto<Boolean> signup(@RequestBody SignupRequestDto signupRequestDto) {
-
+    public ResponseDto<Boolean> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
         return userService.signup(signupRequestDto);
     }
 
     @PostMapping("/login")
     public ResponseDto<Boolean> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse) {
-        userService.login(loginRequestDto, httpServletResponse);
-        return ResponseDto.success(null);
+        return userService.login(loginRequestDto, httpServletResponse);
     }
     @GetMapping("/idCheck/{userName}")
     public ResponseDto<Boolean> userNameCheck(@PathVariable String userName) {

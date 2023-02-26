@@ -1,6 +1,7 @@
 package com.hanghaemini4.jaranghalram.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanghaemini4.jaranghalram.dto.ErrorResponse;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(statusCode);
         response.setContentType("application/json");
         try {
-            String json = new ObjectMapper().writeValueAsString("fail"); //ObjectMapper 매퍼를 통해 변환하여 반환new SecurityExceptionDto(statusCode, msg)
+            String json = new ObjectMapper().writeValueAsString(new ErrorResponse(msg)); //ObjectMapper 매퍼를 통해 변환하여 반환new SecurityExceptionDto(statusCode, msg)
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());
