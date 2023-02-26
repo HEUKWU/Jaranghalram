@@ -17,23 +17,23 @@ public class GlobalExceptionHandler extends RuntimeException{
     }
 //    <String>일 경우 체크
     @ExceptionHandler(CommentException.class)
-    public ResponseEntity<ResponseDto<String>> CommentException(Exception e) {
-        return new ResponseEntity<>(ResponseDto.fail(e.getMessage()), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<String> CommentException(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.TOO_EARLY);
     }
     @ExceptionHandler({PostLikeServiceException.class})
-    public ResponseEntity<ResponseDto<String>> PostLikeServiceException(Exception e) {
-        return new ResponseEntity<>(ResponseDto.fail(e.getMessage()), HttpStatus.PAYMENT_REQUIRED);
+    public ResponseEntity<String> PostLikeServiceException(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.TOO_EARLY);
     }
     @ExceptionHandler(PostServiceException.class)
-    public ResponseEntity<ResponseDto<String>> PostServiceException(Exception e) {
-        return new ResponseEntity<>(ResponseDto.fail(e.getMessage()), HttpStatus.FORBIDDEN);
+    public ResponseEntity<String> PostServiceException(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.TOO_EARLY);
     }
     @ExceptionHandler(UserServiceException.class)
-    public ResponseEntity<ResponseDto<String>> UserServiceException(Exception e) {
-        return new ResponseEntity<>(ResponseDto.fail(e.getMessage()), HttpStatus.NOT_FOUND);
+    public ResponseEntity<String> UserServiceException(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.TOO_EARLY);
     }
     @ExceptionHandler(JwtUtilException.class)
-    public ResponseEntity<ResponseDto<String>> JwtUtilException(Exception e) {
-        return new ResponseEntity<>(ResponseDto.fail(e.getMessage()), HttpStatus.METHOD_NOT_ALLOWED);
+    public ResponseEntity<String> JwtUtilException(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.TOO_EARLY);
     }
 }

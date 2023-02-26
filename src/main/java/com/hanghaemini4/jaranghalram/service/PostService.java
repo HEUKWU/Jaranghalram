@@ -102,7 +102,7 @@ public class PostService {
             postRepository.deleteById(postId);
             return ResponseDto.success("게시물 삭제 성공");
         } else {
-            throw new IllegalArgumentException("작성자만 삭제 가능");
+            throw new PostServiceException("작성자만 삭제 가능");
         }
     }
 }

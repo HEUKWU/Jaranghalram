@@ -42,14 +42,14 @@ public class UserService {
     public ResponseDto<Boolean> userNameCheck(String userName){
         Optional<User> nameCheck = userRepository.findByUserName(userName);
         if (nameCheck.isPresent()) {
-            return ResponseDto.fail(null);
+            throw new UserServiceException("userName이 중복됩니다.");
         }
         return ResponseDto.success(null);
     }
     public ResponseDto<Boolean> userNickNameCheck(String userNickName){
         Optional<User> nameCheck = userRepository.findByUserNickName(userNickName);
         if (nameCheck.isPresent()) {
-            return ResponseDto.fail(null);
+            throw new UserServiceException("userNickName이 중복됩니다.");
         }
         return ResponseDto.success(null);
 
