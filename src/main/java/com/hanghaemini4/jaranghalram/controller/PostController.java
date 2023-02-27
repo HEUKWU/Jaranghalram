@@ -54,7 +54,7 @@ public class PostController {
     @PutMapping("/post/{postId}")
     public ResponseDto<?> updatePost(@PathVariable Long postId,
                                      @RequestPart PostRequestDto requestDto,
-                                     @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+                                     @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
         return postService.updatePost(postId, requestDto, multipartFile, userDetails.getUser());
     }
 
