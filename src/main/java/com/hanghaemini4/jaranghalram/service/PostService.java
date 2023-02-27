@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -75,17 +76,17 @@ public class PostService {
         return ResponseDto.success(posts);
     }
 
-    public ResponseDto<?> addPost(PostRequestDto requestDto, User user) throws IOException {
-        String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
+    public ResponseDto<?> addPost(PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
+        String imageUrl = s3Uploader.uploadFiles(multipartFile, "images");
         postRepository.save(new Post(requestDto, imageUrl, user));
 
         return ResponseDto.success("게시물 등록 성공");
     }
 
     @Transactional
-    public ResponseDto<?> updatePost(Long postId, PostRequestDto requestDto, User user) throws IOException {
+    public ResponseDto<?> updatePost(Long postId, PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
-        String imageUrl = s3Uploader.uploadFiles(requestDto.getMultipartFile(), "images");
+        String imageUrl = s3Uploader.uploadFiles(multipartFile, "images");
         if (user.getUserName().equals(post.getUser().getUserName())) {
             post.update(requestDto, imageUrl);
             return ResponseDto.success("게시물 수정 성공");

@@ -47,20 +47,15 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public ResponseDto<?> createPost(@RequestPart(value = "title") String title,
-                                     @RequestPart(value = "content") String content,
-                                     @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        PostRequestDto requestDto = new PostRequestDto(multipartFile, content, title);
-        return postService.addPost(requestDto, userDetails.getUser());
+    public ResponseDto<?> createPost(@RequestPart PostRequestDto requestDto, @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+        return postService.addPost(requestDto, multipartFile, userDetails.getUser());
     }
 
     @PutMapping("/post/{postId}")
     public ResponseDto<?> updatePost(@PathVariable Long postId,
-                                          @RequestParam(value = "title") String title,
-                                          @RequestParam(value = "content") String content,
-                                          @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
-        PostRequestDto requestDto = new PostRequestDto(multipartFile, content, title);
-        return postService.updatePost(postId, requestDto, userDetails.getUser());
+                                     @RequestPart PostRequestDto requestDto,
+                                     @RequestParam(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
+        return postService.updatePost(postId, requestDto, multipartFile, userDetails.getUser());
     }
 
     @DeleteMapping("/post/{postId}")
