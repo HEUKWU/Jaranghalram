@@ -70,7 +70,7 @@ public class UserService {
             throw new CustomException(ErrorCode.NotMatchPassword);
         }
 
-        httpServletResponse.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUserName()));
+        httpServletResponse.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUserNickName()));
         return ResponseDto.success(null);
     }
 
