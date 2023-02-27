@@ -33,7 +33,15 @@ public class CommentService {
         }
         return ResponseDto.success(comments);
     }
-
+    @Transactional
+    public ResponseDto<List<CommentResponseDto>> getCommentCurrentList(Long postId) {
+        List<Comment> commentList = commentRepository.findAllByPostId(postId);
+        List<CommentResponseDto> comments = new ArrayList<>();
+        for (Comment comment : commentList) {
+            comments.add(new CommentResponseDto(comment));
+        }
+        return ResponseDto.success(comments);
+    }
     @Transactional
     public ResponseDto<?> add(Long postId, CommentRequestDto requestDto, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));

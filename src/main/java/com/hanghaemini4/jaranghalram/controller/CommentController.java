@@ -22,6 +22,11 @@ public class CommentController {
         return commentService.getCommentList(userDetails.getUser());
     }
 
+    @GetMapping("/api/comment/{postId}")
+    public ResponseDto<List<CommentResponseDto>> getComment(@PathVariable Long postId) {
+        return commentService.getCommentCurrentList(postId);
+    }
+
     @PostMapping("/api/comment/{postId}")
     public ResponseDto<?> addComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.add(postId, requestDto, userDetails.getUser());
