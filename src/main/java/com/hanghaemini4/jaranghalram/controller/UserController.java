@@ -26,7 +26,7 @@ public class UserController {
     public ResponseDto<Boolean> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse) {
         return userService.login(loginRequestDto, httpServletResponse);
     }
-    @GetMapping("/idCheck/{userName}")
+    @GetMapping("/id/{userName}")
     public ResponseDto<Boolean> userNameCheck(@PathVariable String userName) {
         return userService.userNameCheck(userName);
     }
