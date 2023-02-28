@@ -17,7 +17,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("api/comment/myCommentList")
+    @GetMapping("api/comment/my-comment-list")
     public ResponseDto<List<CommentResponseDto>> getCommentByUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.getCommentList(userDetails.getUser());
     }

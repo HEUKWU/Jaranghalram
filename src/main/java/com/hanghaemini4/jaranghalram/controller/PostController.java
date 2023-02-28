@@ -41,7 +41,7 @@ public class PostController {
         return postService.getPost(postId, user);
     }
 
-    @GetMapping("/post/myPostList")
+    @GetMapping("/post/my-post-list")
     public ResponseDto<List<PostResponseDto>> getPostByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.getMyList(userDetails.getUser());
     }
