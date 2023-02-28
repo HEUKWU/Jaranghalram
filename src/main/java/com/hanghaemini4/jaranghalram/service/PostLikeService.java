@@ -24,7 +24,7 @@ public class PostLikeService {
         if (postLikeRepository.findByPostIdAndUserId(postId, user.getId()).isPresent()) {
             post.likeCheck((post.getPostLikeCount()) - 1);
             postLikeRepository.deletePostLikeByUserId(user.getId());
-            return ResponseDto.fail(null);
+            return ResponseDto.fail();
         }
         post.likeCheck((post.getPostLikeCount()) + 1);
         PostLike postlike = new PostLike(user, post);

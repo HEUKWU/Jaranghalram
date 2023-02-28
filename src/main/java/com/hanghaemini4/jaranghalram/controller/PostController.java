@@ -42,25 +42,25 @@ public class PostController {
     }
 
     @GetMapping("/post/myPostList")
-    public ResponseDto<List<PostResponseDto>> getMyPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<List<PostResponseDto>> getPostByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.getMyList(userDetails.getUser());
     }
 
     @PostMapping("/post")
-    public ResponseDto<?> createPost(@RequestPart PostRequestDto requestDto, @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        return postService.addPost(requestDto, multipartFile, userDetails.getUser());
+    public ResponseDto<String> createPost(@RequestPart PostRequestDto requestDto, @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+        return postService.create(requestDto, multipartFile, userDetails.getUser());
     }
 
     @PutMapping("/post/{postId}")
-    public ResponseDto<?> updatePost(@PathVariable Long postId,
+    public ResponseDto<String> updatePost(@PathVariable Long postId,
                                      @RequestPart PostRequestDto requestDto,
                                      @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
-        return postService.updatePost(postId, requestDto, multipartFile, userDetails.getUser());
+        return postService.update(postId, requestDto, multipartFile, userDetails.getUser());
     }
 
     @DeleteMapping("/post/{postId}")
-    public ResponseDto<?> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return postService.deletePost(postId, userDetails.getUser());
+    public ResponseDto<String> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.delete(postId, userDetails.getUser());
     }
 
 }

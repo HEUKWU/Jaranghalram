@@ -1,6 +1,6 @@
 package com.hanghaemini4.jaranghalram.exceptionHandler;
 
-import com.hanghaemini4.jaranghalram.dto.ErrorResponse;
+import com.hanghaemini4.jaranghalram.dto.ResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ErrorResponse> handlerException(CustomException e) {
-        return ErrorResponse.error(e.getErrorCode());
+    public ResponseEntity<ResponseDto.Error> handlerException(CustomException e) {
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(new ResponseDto.Error(e.getErrorCode().getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> validationException(MethodArgumentNotValidException e) {
-        return ErrorResponse.error(ErrorCode.InValidException);
+    public ResponseEntity<ResponseDto.Error> validationException() {
+        return ResponseEntity.status(ErrorCode.InValidException.getHttpStatus())
+                .body(new ResponseDto.Error(ErrorCode.InValidException.getMessage()));
     }
 }

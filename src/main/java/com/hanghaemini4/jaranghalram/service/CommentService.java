@@ -43,7 +43,7 @@ public class CommentService {
         return ResponseDto.success(comments);
     }
     @Transactional
-    public ResponseDto<?> add(Long postId, CommentRequestDto requestDto, User user) {
+    public ResponseDto<String> create(Long postId, CommentRequestDto requestDto, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         commentRepository.save(new Comment(requestDto.getContent(), post, user));
         return ResponseDto.success("댓글 등록 성공");
@@ -61,7 +61,7 @@ public class CommentService {
     }
 
     @Transactional
-    public ResponseDto<?> delete(Long postId, User user) {
+    public ResponseDto<String> delete(Long postId, User user) {
         Comment comment = commentRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundComment));
         if (comment.getUser().getUserName().equals(user.getUserName())) {
             commentRepository.deleteById(postId);

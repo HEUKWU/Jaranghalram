@@ -1,16 +1,13 @@
 package com.hanghaemini4.jaranghalram.dto;
 
-import com.hanghaemini4.jaranghalram.entity.Comment;
 import com.hanghaemini4.jaranghalram.entity.Post;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
 public class PostOneResponseDto {
     private Long id;
     private String title;
@@ -40,17 +37,7 @@ public class PostOneResponseDto {
                         .collect(Collectors.toList());
     }
 
-    public PostOneResponseDto(Post post, List<Comment> comments) {
-        this.id = post.getId();
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.imageUrl = post.getImageUrl();
-        this.postLikeCount = post.getPostLikeCount();
-        this.userName = post.getUser().getUserName();
-        this.createdAt = post.getCreatedAt().toString();
-        this.modifiedAt = post.getModifiedAt().toString();
-        for (Comment comment : comments) {
-            commentList.add(new CommentResponseDto(comment));
-        }
+    public void setLiked(boolean liked) {
+        isLiked = liked;
     }
 }

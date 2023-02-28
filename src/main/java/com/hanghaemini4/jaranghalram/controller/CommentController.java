@@ -18,27 +18,27 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("api/comment/myCommentList")
-    public ResponseDto<List<CommentResponseDto>> getComment(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseDto<List<CommentResponseDto>> getCommentByUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.getCommentList(userDetails.getUser());
     }
 
     @GetMapping("/api/comment/{postId}")
-    public ResponseDto<List<CommentResponseDto>> getComment(@PathVariable Long postId) {
+    public ResponseDto<List<CommentResponseDto>> getCommentByPost(@PathVariable Long postId) {
         return commentService.getCommentCurrentList(postId);
     }
 
     @PostMapping("/api/comment/{postId}")
-    public ResponseDto<?> addComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return commentService.add(postId, requestDto, userDetails.getUser());
+    public ResponseDto<String> createComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.create(postId, requestDto, userDetails.getUser());
     }
 
     @PutMapping("api/comment/{postId}")
-    public ResponseDto<?> updateComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<String> updateComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.update(postId, requestDto, userDetails.getUser());
     }
 
     @DeleteMapping("api/comment/{postId}")
-    public ResponseDto<?> deleteComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseDto<String> deleteComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.delete(postId, userDetails.getUser());
     }
 }
