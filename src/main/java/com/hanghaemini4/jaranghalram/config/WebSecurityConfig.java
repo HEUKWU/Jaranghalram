@@ -69,6 +69,7 @@ public class WebSecurityConfig {
 
         config.addAllowedOrigin("http://localhost:3000");
         config.addExposedHeader(JwtUtil.AUTHORIZATION_HEADER);
+        config.addExposedHeader(JwtUtil.REFRESH_TOKEN_HEADER);
         config.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);

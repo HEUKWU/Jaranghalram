@@ -1,11 +1,8 @@
 package com.hanghaemini4.jaranghalram.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import org.springframework.http.ResponseEntity;
 
 @Getter
 @AllArgsConstructor

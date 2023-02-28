@@ -8,7 +8,6 @@ import com.hanghaemini4.jaranghalram.entity.Post;
 import com.hanghaemini4.jaranghalram.entity.User;
 import com.hanghaemini4.jaranghalram.exceptionHandler.CustomException;
 import com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode;
-import com.hanghaemini4.jaranghalram.repository.CommentRepository;
 import com.hanghaemini4.jaranghalram.repository.PostLikeRepository;
 import com.hanghaemini4.jaranghalram.repository.PostRepository;
 import com.hanghaemini4.jaranghalram.s3.S3Uploader;
@@ -31,7 +30,6 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
-    private final CommentRepository commentRepository;
     private final PostLikeRepository postLikeRepository;
     private final S3Uploader s3Uploader;
 

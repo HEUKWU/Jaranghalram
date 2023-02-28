@@ -2,11 +2,7 @@ package com.hanghaemini4.jaranghalram.dto;
 
 import com.hanghaemini4.jaranghalram.entity.Comment;
 import com.hanghaemini4.jaranghalram.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
 
 @Getter
 public class CommentResponseDto {

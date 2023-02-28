@@ -4,8 +4,6 @@ package com.hanghaemini4.jaranghalram.entity;
 import com.hanghaemini4.jaranghalram.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.util.ArrayList;
