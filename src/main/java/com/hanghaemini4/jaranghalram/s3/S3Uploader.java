@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.Optional;
 
@@ -28,7 +30,8 @@ public class S3Uploader {
     }
 
     public String upload(File uploadFile, String filePath) {
-        String fileName = filePath + "/" + UUID.randomUUID();   // S3에 저장된 파일 이름
+        String origName = new String(filePath.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+        String fileName = filePath + "/" + UUID.randomUUID() + origName;   // S3에 저장된 파일 이름
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
         removeNewFile(uploadFile);
         return uploadImageUrl;
