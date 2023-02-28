@@ -73,7 +73,9 @@ public class PostService {
         List<Post> myPost = postRepository.findAllByUserId(user.getId());
         List<PostResponseDto> posts = new ArrayList<>();
         for (Post post : myPost) {
-            posts.add(PostResponseDto.of(post));
+            PostResponseDto dto = PostResponseDto.of(post);
+            dto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
+            posts.add(dto);
         }
         return ResponseDto.success(posts);
     }
