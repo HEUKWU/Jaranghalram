@@ -28,10 +28,6 @@ public class PostController {
     public ResponseDto<List<PostResponseDto>> getPostList(@ApiParam(value="page", required = true, example = "1") @RequestParam int page,
                                                           @ApiParam(value="size", required = true, example = "16")@RequestParam int size,
                                                           @ApiParam(value="sortBy", required = false,defaultValue = "createdAt", example = "PostLikeCount")@RequestParam(required = false, defaultValue = "createdAt") String sortBy,
-    @GetMapping("/posts")
-    public ResponseDto<List<PostResponseDto>> getPostList(@RequestParam int page,
-                                                          @RequestParam int size,
-                                                          @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
                                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = null;
         if(userDetails != null) {
