@@ -24,7 +24,7 @@ public class PostController {
     private final PostService postService;
 
     @ApiOperation(value = "게시글 목록 조회", notes = "page, size, sortBy로 페이징 후 조회")
-    @GetMapping("/post")
+    @GetMapping("/posts")
     public ResponseDto<List<PostResponseDto>> getPostList(@ApiParam(value="page", required = true, example = "1") @RequestParam int page,
                                                           @ApiParam(value="size", required = true, example = "16")@RequestParam int size,
                                                           @ApiParam(value="sortBy", required = false,defaultValue = "createdAt", example = "PostLikeCount")@RequestParam(required = false, defaultValue = "createdAt") String sortBy,
