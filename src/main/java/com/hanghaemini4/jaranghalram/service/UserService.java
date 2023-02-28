@@ -100,7 +100,7 @@ public class UserService {
     public ResponseDto<Boolean> isRefreshToken(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         String refreshToken = jwtUtil.resolveToken(httpServletRequest, "RefreshToken");
         if (!jwtUtil.refreshTokenValidation(refreshToken)) {
-            throw new CustomException(ErrorCode.NotMatchPassword); //에러 수정해야함
+            throw new CustomException(ErrorCode.RefreshTokenValidException);
         }
         httpServletResponse.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(jwtUtil.getUserNickName(refreshToken), JwtUtil.ACCESS_TOKEN_TIME));
 

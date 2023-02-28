@@ -17,7 +17,8 @@ public enum ErrorCode {
     NotFoundComment(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다."),
     NoModifyPermission(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다."),
     NoDeletePermission(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다."),
-    InValidException(HttpStatus.BAD_REQUEST, "값이 잘못되었습니다.");
+    InValidException(HttpStatus.BAD_REQUEST, "값이 잘못되었습니다."),
+    RefreshTokenValidException(HttpStatus.BAD_REQUEST, "RefreshToken값이 잘못되었습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
