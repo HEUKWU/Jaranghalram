@@ -28,6 +28,10 @@ public class PostController {
     public ResponseDto<List<PostResponseDto>> getPostList(@ApiParam(value="page", required = true, example = "1") @RequestParam int page,
                                                           @ApiParam(value="size", required = true, example = "16")@RequestParam int size,
                                                           @ApiParam(value="sortBy", required = false,defaultValue = "createdAt", example = "PostLikeCount")@RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+    @GetMapping("/posts")
+    public ResponseDto<List<PostResponseDto>> getPostList(@RequestParam int page,
+                                                          @RequestParam int size,
+                                                          @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
                                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = null;
         if(userDetails != null) {
@@ -37,7 +41,7 @@ public class PostController {
         return postService.getPostList(page-1, size, sortBy, user);
     }
 
-    @GetMapping("/post/{postId}")
+    @GetMapping("/posts/{postId}")
     public ResponseDto<PostOneResponseDto> getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = null;
         if(userDetails != null) {
@@ -46,24 +50,24 @@ public class PostController {
         return postService.getPost(postId, user);
     }
 
-    @GetMapping("/post/myPostList")
+    @GetMapping("/posts/my-post-list")
     public ResponseDto<List<PostResponseDto>> getPostByUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.getMyList(userDetails.getUser());
     }
 
-    @PostMapping("/post")
+    @PostMapping("/posts")
     public ResponseDto<String> createPost(@RequestPart PostRequestDto requestDto, @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         return postService.create(requestDto, multipartFile, userDetails.getUser());
     }
 
-    @PutMapping("/post/{postId}")
+    @PutMapping("/posts/{postId}")
     public ResponseDto<String> updatePost(@PathVariable Long postId,
                                      @RequestPart PostRequestDto requestDto,
                                      @RequestPart(value = "image") MultipartFile multipartFile, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException{
         return postService.update(postId, requestDto, multipartFile, userDetails.getUser());
     }
 
-    @DeleteMapping("/post/{postId}")
+    @DeleteMapping("/posts/{postId}")
     public ResponseDto<String> deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.delete(postId, userDetails.getUser());
     }
