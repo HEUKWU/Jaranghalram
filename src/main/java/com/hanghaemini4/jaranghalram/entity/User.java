@@ -22,10 +22,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    public User(SignupRequestDto requestDto) {
+    public User(SignupRequestDto requestDto, String password) {
         this.userName = requestDto.getUserName();
         this.userNickName = requestDto.getUserNickName();
-        this.password = requestDto.getPassword();
+        this.password = password;
     }
 
 }
