@@ -7,6 +7,7 @@ import com.hanghaemini4.jaranghalram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -25,13 +26,18 @@ public class UserController {
     public ResponseDto<Boolean> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse) {
         return userService.login(loginRequestDto, httpServletResponse);
     }
-    @GetMapping("/id/{userName}")
+    @GetMapping("/idCheck/{userName}")
     public ResponseDto<Boolean> userNameCheck(@PathVariable String userName) {
         return userService.userNameCheck(userName);
     }
     @GetMapping("/nick-name/{userNickName}")
     public ResponseDto<Boolean> userNickNameCheck(@PathVariable String userNickName) {
         return userService.userNickNameCheck(userNickName);
+    }
+
+    @PostMapping("/isRefreshToken")
+    public ResponseDto<Boolean> isRefreshToken(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        return userService.isRefreshToken(httpServletRequest, httpServletResponse);
     }
 
 //    @GetMapping("/logout")
