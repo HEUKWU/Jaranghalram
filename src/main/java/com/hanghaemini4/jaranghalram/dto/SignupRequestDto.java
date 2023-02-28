@@ -1,13 +1,10 @@
 package com.hanghaemini4.jaranghalram.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
-import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
-@Setter
 @Getter
 public class SignupRequestDto {
     @Size(min = 4, max = 10)

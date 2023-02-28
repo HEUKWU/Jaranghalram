@@ -8,6 +8,7 @@ import com.hanghaemini4.jaranghalram.entity.Post;
 import com.hanghaemini4.jaranghalram.entity.User;
 import com.hanghaemini4.jaranghalram.exceptionHandler.CustomException;
 import com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode;
+import com.hanghaemini4.jaranghalram.repository.CommentRepository;
 import com.hanghaemini4.jaranghalram.repository.PostLikeRepository;
 import com.hanghaemini4.jaranghalram.repository.PostRepository;
 import com.hanghaemini4.jaranghalram.s3.S3Uploader;
@@ -30,6 +31,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
     private final PostLikeRepository postLikeRepository;
     private final S3Uploader s3Uploader;
 
@@ -76,7 +78,7 @@ public class PostService {
         return ResponseDto.success(posts);
     }
 
-    public ResponseDto<?> addPost(PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
+    public ResponseDto<String> create(PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
         String imageUrl = s3Uploader.uploadFiles(multipartFile, "images");
         postRepository.save(new Post(requestDto, imageUrl, user));
 
@@ -84,7 +86,7 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseDto<?> updatePost(Long postId, PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
+    public ResponseDto<String> update(Long postId, PostRequestDto requestDto, MultipartFile multipartFile, User user) throws IOException {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         String imageUrl = s3Uploader.uploadFiles(multipartFile, "images");
         if (user.getUserName().equals(post.getUser().getUserName())) {
@@ -96,7 +98,7 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseDto<?> deletePost(Long postId, User user) {
+    public ResponseDto<String> delete(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         if (user.getUserName().equals(post.getUser().getUserName())) {
             postRepository.deleteById(postId);

@@ -3,10 +3,8 @@ package com.hanghaemini4.jaranghalram.dto;
 import com.hanghaemini4.jaranghalram.entity.Post;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 @Builder
 public class PostResponseDto {
     private Long id;
@@ -31,5 +29,9 @@ public class PostResponseDto {
                 .createdAt(post.getCreatedAt().toString())
                 .modifiedAt(post.getModifiedAt().toString())
                 .build();
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
     }
 }

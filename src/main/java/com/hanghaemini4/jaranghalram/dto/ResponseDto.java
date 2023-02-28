@@ -1,14 +1,17 @@
 package com.hanghaemini4.jaranghalram.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 
 @Getter
 @AllArgsConstructor
 public class ResponseDto<T> {
 
-    boolean success;
+    private boolean success;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
@@ -17,7 +20,13 @@ public class ResponseDto<T> {
         return new ResponseDto<>(true, result);
     }
 
-    public static <T> ResponseDto<T> fail(T result) {
-        return new ResponseDto<>(true, null);
+    public static <T> ResponseDto<T> fail() {
+        return new ResponseDto<>(false, null);
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Error {
+        private String errorMessage;
     }
 }
