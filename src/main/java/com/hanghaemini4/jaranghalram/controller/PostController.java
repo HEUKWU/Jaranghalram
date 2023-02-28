@@ -4,6 +4,9 @@ import com.hanghaemini4.jaranghalram.dto.*;
 import com.hanghaemini4.jaranghalram.entity.User;
 import com.hanghaemini4.jaranghalram.security.UserDetailsImpl;
 import com.hanghaemini4.jaranghalram.service.PostService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +17,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Api(value = "게시글 api")
 @RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
 
+    @ApiOperation(value = "게시글 목록 조회", notes = "page, size, sortBy로 페이징 후 조회")
     @GetMapping("/post")
-    public ResponseDto<List<PostResponseDto>> getPostList(@RequestParam int page,
-                                                          @RequestParam int size,
-                                                          @RequestParam(required = false, defaultValue = "createdAt") String sortBy,
+    public ResponseDto<List<PostResponseDto>> getPostList(@ApiParam(value="page", required = true, example = "1") @RequestParam int page,
+                                                          @ApiParam(value="size", required = true, example = "16")@RequestParam int size,
+                                                          @ApiParam(value="sortBy", required = false,defaultValue = "createdAt", example = "PostLikeCount")@RequestParam(required = false, defaultValue = "createdAt") String sortBy,
                                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = null;
         if(userDetails != null) {
