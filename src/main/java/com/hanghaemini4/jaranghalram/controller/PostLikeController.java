@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostLikeController {
     private final PostLikeService postLikeService;
 
-    @PostMapping("/like/{postId}")
+    @PostMapping("/like-counts/{postId}")
     public ResponseDto<Boolean> likePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postLikeService.likePost(postId, userDetails.getUser());
     }

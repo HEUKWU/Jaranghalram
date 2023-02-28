@@ -17,27 +17,27 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("api/comment/my-comment-list")
+    @GetMapping("api/comments/my-comment-list")
     public ResponseDto<List<CommentResponseDto>> getCommentByUser(@AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.getCommentList(userDetails.getUser());
     }
 
-    @GetMapping("/api/comment/{postId}")
+    @GetMapping("/api/comments/{postId}")
     public ResponseDto<List<CommentResponseDto>> getCommentByPost(@PathVariable Long postId) {
         return commentService.getCommentCurrentList(postId);
     }
 
-    @PostMapping("/api/comment/{postId}")
+    @PostMapping("/api/comments/{postId}")
     public ResponseDto<String> createComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.create(postId, requestDto, userDetails.getUser());
     }
 
-    @PutMapping("api/comment/{postId}")
+    @PutMapping("api/comments/{postId}")
     public ResponseDto<String> updateComment(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.update(postId, requestDto, userDetails.getUser());
     }
 
-    @DeleteMapping("api/comment/{postId}")
+    @DeleteMapping("api/comments/{postId}")
     public ResponseDto<String> deleteComment(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.delete(postId, userDetails.getUser());
     }
