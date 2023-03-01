@@ -36,17 +36,14 @@ public class PostService {
     @Transactional
     public ResponseDto<List<PostResponseDto>> getPostList(int page, int size, String sortBy, User user) {
 
-        Sort.Direction direction = Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
+        Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Post> postPage = postRepository.findAll(pageable);
 
-
-        Iterator<Post> iterator = postPage.iterator();
+        List<Post> posts = postPage.getContent();
         List<PostResponseDto> dtoList = new ArrayList<>();
 
-        while (iterator.hasNext()) {
-            Post post = iterator.next();
+        for (Post post : posts) {
             PostResponseDto responseDto = PostResponseDto.of(post);
             if(user != null) { // 로그인 했을 때 좋아요 여부 체크
                 responseDto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
