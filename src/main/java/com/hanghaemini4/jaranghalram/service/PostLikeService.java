@@ -19,8 +19,8 @@ public class PostLikeService {
     private final PostLikeRepository postLikeRepository;
 
     public ResponseDto<Integer> likeCountsCheck(Long postId) {
-        Integer post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost)).getPostLikeCount();
-        return ResponseDto.success(post);
+        Integer likeCount = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost)).getPostLikeCount();
+        return ResponseDto.success(likeCount);
     }
     @Transactional
     public ResponseDto<Boolean> likePost(Long postId, User user) {
