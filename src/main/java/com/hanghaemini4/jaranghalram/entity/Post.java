@@ -32,10 +32,6 @@ public class Post extends TimeStamped{
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostLike> postLikeList = new ArrayList<>();
 
-    public void likeCheck(int count) {
-        this.postLikeCount = count;
-    }
-
     public void update(PostRequestDto requestDto, String imageUrl) {
         this.title = requestDto.getTitle();
         this.content = requestDto.getContent();

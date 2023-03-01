@@ -26,11 +26,11 @@ public class PostLikeService {
     public ResponseDto<Boolean> likePost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         if (postLikeRepository.findByPostIdAndUserId(postId, user.getId()).isPresent()) {
-            post.likeCheck((post.getPostLikeCount()) - 1);
+            postRepository.updatePostLikeCount(postId, (post.getPostLikeCount() - 1));
             postLikeRepository.deletePostLikeByUserId(user.getId());
             return ResponseDto.fail();
         }
-        post.likeCheck((post.getPostLikeCount()) + 1);
+        postRepository.updatePostLikeCount(postId, (post.getPostLikeCount() + 1));
         PostLike postlike = new PostLike(user, post);
         postLikeRepository.save(postlike);
         return ResponseDto.success(null);
