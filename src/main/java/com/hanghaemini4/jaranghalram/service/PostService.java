@@ -55,6 +55,17 @@ public class PostService {
         return ResponseDto.success(dtoList);
     }
 
+    public ResponseDto<List<PostResponseDto>> getLikedPostList(User user) {
+        List<Post> posts = postRepository.findAll();
+        List<PostResponseDto> dto = new ArrayList<>();
+        for (Post post : posts) {
+            PostResponseDto responseDto = PostResponseDto.of(post);
+            responseDto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(), user.getId()).isPresent());
+            dto.add(responseDto);
+        }
+        return ResponseDto.success(dto);
+    }
+
     @Transactional
     public ResponseDto<PostOneResponseDto> getPost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
