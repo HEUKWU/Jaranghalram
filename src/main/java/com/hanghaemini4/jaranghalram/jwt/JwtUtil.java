@@ -56,12 +56,13 @@ public class JwtUtil {
 
     // header 토큰을 가져오기
     public String resolveToken(HttpServletRequest request, String tokenType) {
-        String bearerToken = tokenType.equals("Authorization") ? request.getHeader(AUTHORIZATION_HEADER) :request.getHeader(REFRESH_TOKEN_HEADER);
+        String bearerToken = tokenType.equals("Authorization") ? request.getHeader(AUTHORIZATION_HEADER) : request.getHeader(REFRESH_TOKEN_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7);
         }
         return null;
     }
+
     //전체 토큰 생성
     public TokenDto createAllToken(String userId) {
         return new TokenDto(createToken(userId, ACCESS_TOKEN_TIME), createToken(userId, REFRESH_TOKEN_TIME));
@@ -86,14 +87,15 @@ public class JwtUtil {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            throw new CustomException(ErrorCode.TokenSecurityExceptionOrMalformedJwtException);
+            log.info("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
         } catch (ExpiredJwtException e) {
-            throw new CustomException(ErrorCode.TokenExpiredJwtException);
+            log.info("Expired JWT token, 만료된 JWT token 입니다.");
         } catch (UnsupportedJwtException e) {
-            throw new CustomException(ErrorCode.TokenUnsupportedJwtException);
+            log.info("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
         } catch (IllegalArgumentException e) {
-            throw new CustomException(ErrorCode.TokenIllegalArgumentException);
+            log.info("JWT claims is empty, 잘못된 JWT 토큰 입니다.");
         }
+        return false;
     }
 
     // 토큰에서 userNickName 가져오는 기능
@@ -106,6 +108,7 @@ public class JwtUtil {
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
+
     // 인증 객체 생성
     public Authentication createAuthentication(String userNickName) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userNickName);
@@ -116,7 +119,7 @@ public class JwtUtil {
     public Boolean refreshTokenValidation(String token) {
 
         // 1차 토큰 검증
-        if(!validateToken(token)){
+        if (!validateToken(token)) {
             return false;
         }
         // DB에 저장한 토큰 비교
