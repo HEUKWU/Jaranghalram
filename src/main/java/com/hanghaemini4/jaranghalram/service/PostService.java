@@ -43,22 +43,37 @@ public class PostService {
         List<PostResponseDto> dtoList = new ArrayList<>();
 
         for (Post post : posts) {
+            boolean isLiked = false;
             PostResponseDto responseDto = PostResponseDto.of(post);
             if(user != null) { // 로그인 했을 때 좋아요 여부 체크
-                responseDto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
+                isLiked = postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent();
             }
+            responseDto.setLiked(isLiked);
             dtoList.add(responseDto);
         }
         return ResponseDto.success(dtoList);
+    }
+
+    public ResponseDto<List<PostResponseDto>> getLikedPostList(User user) {
+        List<Post> posts = postRepository.findAll();
+        List<PostResponseDto> dto = new ArrayList<>();
+        for (Post post : posts) {
+            PostResponseDto responseDto = PostResponseDto.of(post);
+            responseDto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(), user.getId()).isPresent());
+            dto.add(responseDto);
+        }
+        return ResponseDto.success(dto);
     }
 
     @Transactional
     public ResponseDto<PostOneResponseDto> getPost(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         PostOneResponseDto postOneResponseDto = new PostOneResponseDto(post);
+        boolean isLiked = false;
         if(user != null) {
-            postOneResponseDto.setLiked(postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent());
+            isLiked = postLikeRepository.findByPostIdAndUserId(post.getId(),user.getId()).isPresent();
         }
+        postOneResponseDto.setLiked(isLiked);
         return ResponseDto.success(postOneResponseDto);
     }
 

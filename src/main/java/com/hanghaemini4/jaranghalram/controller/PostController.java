@@ -37,6 +37,11 @@ public class PostController {
         return postService.getPostList(page-1, size, sortBy, user);
     }
 
+    @GetMapping("/liked-posts")
+    public ResponseDto<List<PostResponseDto>> getLikedPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return postService.getLikedPostList(userDetails.getUser());
+    }
+
     @GetMapping("/posts/{postId}")
     public ResponseDto<PostOneResponseDto> getPost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         User user = null;
