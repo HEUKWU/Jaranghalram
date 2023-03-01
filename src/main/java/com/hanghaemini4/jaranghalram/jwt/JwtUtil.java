@@ -2,6 +2,8 @@ package com.hanghaemini4.jaranghalram.jwt;
 
 import com.hanghaemini4.jaranghalram.dto.TokenDto;
 import com.hanghaemini4.jaranghalram.entity.RefreshToken;
+import com.hanghaemini4.jaranghalram.exceptionHandler.CustomException;
+import com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode;
 import com.hanghaemini4.jaranghalram.repository.RefreshTokenRepository;
 import com.hanghaemini4.jaranghalram.security.UserDetailServiceImpl;
 import io.jsonwebtoken.*;
@@ -22,6 +24,8 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
+
+import static com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode.RefreshTokenValidException;
 
 @Slf4j
 @Component
@@ -44,7 +48,9 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
+        // Base64로 인코딩된 문자열인 secretKey를 디코딩하여 byte 배열로 변환합니다.
         byte[] bytes = Base64.getDecoder().decode(secretKey);
+        // 변환된 byte 배열을 이용하여 HMAC-SHA 키 객체를 생성합니다
         key = Keys.hmacShaKeyFor(bytes);
     }
 
@@ -80,15 +86,14 @@ public class JwtUtil {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
+            throw new CustomException(ErrorCode.TokenSecurityExceptionOrMalformedJwtException);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT token, 만료된 JWT token 입니다.");
+            throw new CustomException(ErrorCode.TokenExpiredJwtException);
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다.");
+            throw new CustomException(ErrorCode.TokenUnsupportedJwtException);
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims is empty, 잘못된 JWT 토큰 입니다.");
+            throw new CustomException(ErrorCode.TokenIllegalArgumentException);
         }
-        return false;
     }
 
     // 토큰에서 userNickName 가져오는 기능

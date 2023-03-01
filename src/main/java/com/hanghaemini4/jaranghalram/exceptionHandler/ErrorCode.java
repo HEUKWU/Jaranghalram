@@ -18,7 +18,11 @@ public enum ErrorCode {
     NoModifyPermission(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다."),
     NoDeletePermission(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다."),
     InValidException(HttpStatus.BAD_REQUEST, "값이 잘못되었습니다."),
-    RefreshTokenValidException(HttpStatus.BAD_REQUEST, "RefreshToken값이 잘못되었습니다.");
+    TokenSecurityExceptionOrMalformedJwtException(HttpStatus.BAD_REQUEST, "Invalid JWT signature, 유효하지 않는 JWT 서명 입니다."),
+    TokenExpiredJwtException(HttpStatus.BAD_REQUEST, "Expired JWT token, 만료된 JWT token 입니다."),
+    TokenUnsupportedJwtException(HttpStatus.BAD_REQUEST, "Unsupported JWT token, 지원되지 않는 JWT 토큰 입니다."),
+    TokenIllegalArgumentException(HttpStatus.BAD_REQUEST, "JWT claims is empty, 잘못된 JWT 토큰 입니다."),
+    RefreshTokenValidException(HttpStatus.BAD_REQUEST, "refreshToken이 유효하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
