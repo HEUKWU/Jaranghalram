@@ -15,7 +15,7 @@ public class PostOneResponseDto {
     private String imageUrl;
     private int postLikeCount;
     private String userName;
-    private boolean isLiked;
+    private Boolean isLiked;
 
     private String createdAt;
     private String modifiedAt;
