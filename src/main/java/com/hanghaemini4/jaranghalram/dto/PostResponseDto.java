@@ -13,6 +13,7 @@ public class PostResponseDto {
     private String imageUrl;
     private int postLikeCount;
     private String userName;
+    private String userNickName;
     private Boolean isLiked;
     private String createdAt;
     private String modifiedAt;
@@ -26,6 +27,7 @@ public class PostResponseDto {
                 .imageUrl(post.getImageUrl())
                 .postLikeCount(post.getPostLikeCount())
                 .userName(post.getUser().getUserNickName())
+                .userNickName(post.getUser().getUserNickName())
                 .createdAt(post.getCreatedAt().toString())
                 .modifiedAt(post.getModifiedAt().toString())
                 .build();
