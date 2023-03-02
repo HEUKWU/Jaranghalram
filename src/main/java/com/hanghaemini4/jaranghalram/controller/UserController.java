@@ -40,10 +40,4 @@ public class UserController {
         return userService.isRefreshToken(httpServletRequest, httpServletResponse);
     }
 
-//    @GetMapping("/logout")
-//    public String logout(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse httpServletResponse) {
-//        userService.logout(loginRequestDto, httpServletResponse);
-//        return "logout success";
-//    }
-
 }

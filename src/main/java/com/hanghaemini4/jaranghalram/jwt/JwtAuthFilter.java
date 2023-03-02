@@ -37,21 +37,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request,response);
     }
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-//
-//        String accessToken = jwtUtil.getHeaderToken(request, "Access");
-//
-//        if(accessToken != null){
-//            if(!jwtUtil.tokenValidation(accessToken)){
-//                jwtExceptionHandler(response);
-//                return;
-//            }
-//            setAuthentication(jwtUtil.getUserId(accessToken));
-//        }
-//
-//        filterChain.doFilter(request,response);
-//    }
 
     public void setAuthentication(String username) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();

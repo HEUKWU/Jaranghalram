@@ -78,7 +78,7 @@ public class PostService {
     }
 
     @Transactional
-    public ResponseDto<List<PostResponseDto>> getMyList(User user) {
+    public ResponseDto<List<PostResponseDto>> getUserPost(User user) {
         List<Post> myPost = postRepository.findAllByUserId(user.getId());
         List<PostResponseDto> posts = new ArrayList<>();
         for (Post post : myPost) {

@@ -81,8 +81,6 @@ public class UserService {
             throw new CustomException(ErrorCode.NotMatchPassword);
         }
         TokenDto tokenDto = jwtUtil.createAllToken(user.getUserNickName());
-//        httpServletResponse.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUserNickName(),JwtUtil.ACCESS_TOKEN_TIME));
-//        httpServletResponse.addHeader(JwtUtil.REFRESH_TOKEN_HEADER, jwtUtil.createToken(user.getUserNickName(),JwtUtil.REFRESH_TOKEN_TIME));
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByUserNickName(user.getUserNickName());
 
         if (refreshToken.isPresent()) {
