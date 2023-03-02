@@ -2,8 +2,6 @@ package com.hanghaemini4.jaranghalram.jwt;
 
 import com.hanghaemini4.jaranghalram.dto.TokenDto;
 import com.hanghaemini4.jaranghalram.entity.RefreshToken;
-import com.hanghaemini4.jaranghalram.exceptionHandler.CustomException;
-import com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode;
 import com.hanghaemini4.jaranghalram.repository.RefreshTokenRepository;
 import com.hanghaemini4.jaranghalram.security.UserDetailServiceImpl;
 import io.jsonwebtoken.*;
@@ -25,7 +23,6 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.hanghaemini4.jaranghalram.exceptionHandler.ErrorCode.RefreshTokenValidException;
 
 @Slf4j
 @Component
