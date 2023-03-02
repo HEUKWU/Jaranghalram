@@ -38,6 +38,7 @@ String origName = new String(filePath.getBytes(StandardCharsets.ISO_8859_1), Sta
 
 ## 추가자료
 ### 외부링크
+- 시연 사이트 주소 : http://jaranghalram.s3-website.ap-northeast-2.amazonaws.com/
 - 사이트 소개 영상(유튜브) : https://youtu.be/sx55BSeJgdE
 - API 명세서(노션) : https://repeated-dandelion-a3f.notion.site/A-4-SA-c681d8514bdf4e8989b86cbd060859e5
 - 변수이름설명(노션) : https://www.notion.so/789648d35f2741cf8ef0fbcca554cab8?v=a02e66d86cfc41788eb1fba9b51271cc
