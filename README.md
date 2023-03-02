@@ -20,13 +20,13 @@
 - 리프레시 토큰을 활용한 엑세스 토큰 보안성 강화
 
 ## 트러블 슈팅
-- S3 이미지 업로드시 폼데이터 한글 인코딩 이슈
+- S3 이미지 업로드시 폼데이터 한글 인코딩 이슈<br>
 String origName = new String(filePath.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-- '좋아요 버튼'선택여부 true, false변환시 put과 delete대상 불일치
+- '좋아요 버튼'선택여부 true, false변환시 put과 delete대상 불일치<br>
 테이블에서 탐색 대상을 UserId 에 추가로 PostId를 사용해 대상 명확히 설정
-- 클라이언트 단에서 불필요한 리렌더링 현상 발생
+- 클라이언트 단에서 불필요한 리렌더링 현상 발생<br>
 데이터 갱신시 변경된 부분만 적용할 수 있도록 GetMapping 대상을 분리(Post와 Comment)
-- '좋아요 개수'변경에 따른 Post 테이블 내부 필드값 변경에 따라 Post의 최종 수정일자가 함께 변경되는 현상
+- '좋아요 개수'변경에 따른 Post 테이블 내부 필드값 변경에 따라 Post의 최종 수정일자가 함께 변경되는 현상<br>
 쿼리문을 따로 보내서 포스트 조회 메소드에서 발생하는 ModifiedAt 일자 변경을 방지<br>
 (다른 대안 : '좋아요'자체를 따로 관리하는 테이블 생성해서 ModifiedAt의 영향과 분리)
 
