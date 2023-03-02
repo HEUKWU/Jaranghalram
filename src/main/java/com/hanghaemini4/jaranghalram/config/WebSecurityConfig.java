@@ -68,6 +68,7 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.addAllowedOrigin("http://localhost:3000");
+        config.addAllowedOrigin("http://jaranghalram.s3-website.ap-northeast-2.amazonaws.com");
         config.addExposedHeader(JwtUtil.AUTHORIZATION_HEADER);
         config.addExposedHeader(JwtUtil.REFRESH_TOKEN_HEADER);
         config.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
