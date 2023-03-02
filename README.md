@@ -49,8 +49,7 @@ String origName = new String(filePath.getBytes(StandardCharsets.ISO_8859_1), Sta
 <details>
 <summary>펼쳐보기</summary>
 <div markdown="1">
-![ppt발표자료 전문](https://github.com/HEUKWU/Jaranghalram/blob/master/src/main/resources/static/images/pptAll.jpg)
- <br>
+<img src="https://github.com/HEUKWU/Jaranghalram/blob/master/src/main/resources/static/images/pptAll.jpg" alt="ppt 발표 자료 전문">
 </div>
 </details>
 
