@@ -27,7 +27,7 @@ public class PostLikeService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new CustomException(ErrorCode.NotFoundPost));
         if (postLikeRepository.findByPostIdAndUserId(postId, user.getId()).isPresent()) {
             postRepository.updatePostLikeCount(postId, (post.getPostLikeCount() - 1));
-            postLikeRepository.deletePostLikeByUserId(user.getId());
+            postLikeRepository.deletePostLikeByUserIdAndPostId(user.getId(), post.getId());
             return ResponseDto.fail();
         }
         postRepository.updatePostLikeCount(postId, (post.getPostLikeCount() + 1));
