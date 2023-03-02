@@ -1,8 +1,8 @@
 ## 팀원소개
-|김대욱|박성현|유영우|김관희|박성인|박준혁|
-|:---:|:---:|:---:|:---:|:---:|:---:|
-|dae-wook|seonghyun519|HEUKWU|PracticingGit|||
-|리더 / BE|BE|BE|BE|FE|FE|
+|김대욱|박성현|유영우|김관희|
+|:---:|:---:|:---:|:---:|
+|dae-wook|seonghyun519|HEUKWU|PracticingGit|
+|리더 / BE|BE|BE|BE|
 
 ## 목표
 - 게시판 형식을 구현
