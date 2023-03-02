@@ -14,7 +14,7 @@ public class PostOneResponseDto {
     private String content;
     private String imageUrl;
     private int postLikeCount;
-    private String userNickName;
+    private String userName;
     private Boolean isLiked;
 
     private String createdAt;
@@ -28,7 +28,7 @@ public class PostOneResponseDto {
         this.content = post.getContent();
         this.imageUrl = post.getImageUrl();
         this.postLikeCount = post.getPostLikeCount();
-        this.userNickName = post.getUser().getUserNickName();
+        this.userName = post.getUser().getUserNickName();
         this.createdAt = post.getCreatedAt().toString();
         this.modifiedAt = post.getModifiedAt().toString();
         this.commentList = post.getCommentList().stream().sorted((a, b) ->
