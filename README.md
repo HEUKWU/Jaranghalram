@@ -45,6 +45,14 @@ String origName = new String(filePath.getBytes(StandardCharsets.ISO_8859_1), Sta
 - 에러 코드(노션) : https://www.notion.so/9473e4f56cfe4b1189798ac7125fb419?v=6014e49585b3480ebd572e42ee9d9f38
 - ERD(노션) : https://www.notion.so/A-4-SA-c681d8514bdf4e8989b86cbd060859e5
 
+### ppt 발표자료
+<details>
+<summary>펼쳐보기</summary>
+<div markdown="1">
+![ppt발표자료 전문](https://github.com/HEUKWU/Jaranghalram/blob/master/src/main/resources/static/images/pptAll.jpg)
+ <br>
+</div>
+</details>
 
 ## 기술스택
 ### FE
